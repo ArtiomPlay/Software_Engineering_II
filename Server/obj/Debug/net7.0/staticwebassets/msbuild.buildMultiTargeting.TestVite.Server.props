@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\SE_II.Server.props" />
+</Project>

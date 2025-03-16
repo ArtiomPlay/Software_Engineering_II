@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v7.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v7.0": {
+      "SE_II.Shared/1.0.0": {
+        "runtime": {
+          "SE_II.Shared.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "SE_II.Shared/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
