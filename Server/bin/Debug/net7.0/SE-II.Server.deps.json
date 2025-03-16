@@ -8,8 +8,7 @@
     ".NETCoreApp,Version=v7.0": {
       "SE-II.Server/1.0.0": {
         "dependencies": {
-          "Microsoft.AspNetCore.Components.WebAssembly.Server": "7.0.8",
-          "SE-II.Shared": "1.0.0"
+          "Microsoft.AspNetCore.Components.WebAssembly.Server": "7.0.8"
         },
         "runtime": {
           "SE-II.Server.dll": {}
@@ -20,14 +19,6 @@
           "lib/net7.0/Microsoft.AspNetCore.Components.WebAssembly.Server.dll": {
             "assemblyVersion": "7.0.8.0",
             "fileVersion": "7.0.823.31807"
-          }
-        }
-      },
-      "SE-II.Shared/1.0.0": {
-        "runtime": {
-          "SE-II.Shared.dll": {
-            "assemblyVersion": "1.0.0",
-            "fileVersion": "1.0.0.0"
           }
         }
       }
@@ -45,11 +36,6 @@
       "sha512": "sha512-cavNJEKRv5unj1FU6cN6fDN36pUAFOyensiIMm/j74gCK4FOz1uKs6nHUBcsN5BtaXvvvqroF1RYf8x9uDJXww==",
       "path": "microsoft.aspnetcore.components.webassembly.server/7.0.8",
       "hashPath": "microsoft.aspnetcore.components.webassembly.server.7.0.8.nupkg.sha512"
-    },
-    "SE-II.Shared/1.0.0": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
     }
   }
 }

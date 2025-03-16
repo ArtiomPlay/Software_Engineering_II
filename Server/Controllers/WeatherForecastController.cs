@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using SE_II.Shared;
+using SE_II.Server.Models;
 
 namespace SE_II.Server.Controllers;
 

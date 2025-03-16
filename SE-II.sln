@@ -4,10 +4,6 @@ VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 16.0.0.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SE-II.Server", "Server\SE-II.Server.csproj", "{8F8978CC-A521-4AEE-944A-67790CFE5497}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SE-II.Client", "Client\SE-II.Client.csproj", "{4231DCE9-F22D-47BE-8597-702AB0031679}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SE-II.Shared", "Shared\SE-II.Shared.csproj", "{1ABA84A5-3933-41ED-9DAD-F485B765E61B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
