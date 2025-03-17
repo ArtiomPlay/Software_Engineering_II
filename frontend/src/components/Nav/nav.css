@@ -1,0 +1,47 @@
+.nav_bar{
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    background-color: #5e0000;
+    border-bottom: 6px solid #135a00;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4rem;
+    align-items: center;
+    padding: 10px;
+    z-index: 100;
+}
+
+.nav_item{
+    align-items: center;
+    background-color: #920000;
+    border: 5px solid #209300;
+    border-radius: 20px;
+    height: auto;
+    width: auto;
+    padding: 7px;
+}
+
+.nav_item_text{
+    color: #b8b8b8;
+    font-weight: bold;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    text-decoration: none;
+}
+
+.home_button{
+    margin-left: 2rem;
+}
+
+.leaderboard_button{
+    margin-left: auto;
+    margin-right: 0rem;
+}
+
+.account_button{
+    margin-left: 1rem;
+    margin-right: 2rem;
+}
