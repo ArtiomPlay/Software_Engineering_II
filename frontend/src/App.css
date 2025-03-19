@@ -1,6 +1,21 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.page {
+  background: #341b1b;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.main_body {
+  display: flex;
+  flex-direction: column;
+  min-height: 88vh;
+  flex: 1;
+  overflow: auto;
 }

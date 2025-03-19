@@ -3,6 +3,7 @@ import './App.css'
 
 import {Nav} from './components/Nav/nav'
 import {Home} from './pages/Home'
+import { Leaderboard } from './pages/Leaderboard'
 
 function App() {
   /*
@@ -17,12 +18,17 @@ function App() {
   }, [])*/
 
   return (
-    <BrowserRouter>
-      <Nav/>
-      <Routes>
-        <Route path="/" element={<Home/>}/>
-      </Routes>
-    </BrowserRouter>
+    <div className='page'>
+      <BrowserRouter>
+        <Nav/>
+        <div className='main_body'>
+          <Routes>
+            <Route path="/" element={<Home/>}/>
+            <Route path="/leaderboard" element={<Leaderboard/>}/>
+          </Routes>
+        </div>
+      </BrowserRouter>
+    </div>
   )
 }
 
