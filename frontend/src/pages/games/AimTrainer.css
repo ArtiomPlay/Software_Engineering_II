@@ -1,0 +1,28 @@
+.row{
+    flex-direction: row;
+}
+
+.game_window{
+    background-color: #5b0000;
+    border: 5px solid #219600;
+    border-radius: 20px;
+    margin: 2rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+    height: 33rem;
+    padding: 1rem;
+}
+
+.personal_stats{
+    margin-left: 20rem;
+    margin-right: auto;
+}
+
+.start_button{
+
+}
+
+.leaderboard{
+    
+}

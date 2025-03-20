@@ -2,7 +2,7 @@
     display: flex;
     justify-content: flex-start;
     flex-direction: row;
-    background-color: #5e0000;
+    background-color: #6a0000;
     border-bottom: 4px solid #135a00;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     position: sticky;
@@ -40,6 +40,7 @@
 }
 
 .home_button{
+    margin-top: -0.3rem;
     margin-left: 2rem;
     margin-right: auto;
 }
