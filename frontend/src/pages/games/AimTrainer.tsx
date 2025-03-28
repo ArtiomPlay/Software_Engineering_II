@@ -6,7 +6,7 @@ interface Target{
     y: number;
 }
 
-const AimTrainer: React.FC=() => {
+export const AimTrainer: React.FC=() => {
     const [gameState,setGameState]=useState("main");
 
     const startGame=async() => {
@@ -76,5 +76,3 @@ const AimTrainer: React.FC=() => {
         </div>
     )
 }
-
-export default AimTrainer
