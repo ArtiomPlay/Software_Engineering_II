@@ -1,4 +1,9 @@
+using Microsoft.EntityFrameworkCore;
+using SE_II.Server.Data;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite("Data Source=Database/appdb.db"));
 
 builder.Services.AddCors(options =>
 {
@@ -9,6 +14,7 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddControllers();
+builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
