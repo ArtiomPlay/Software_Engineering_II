@@ -4,6 +4,74 @@ export const Leaderboard=() => {
     return(
         <div className="col">
             <div className="row">
+                <div className="all_scores_table">
+                    <div className="table_type">
+                        All scores
+                        <hr/>
+                    </div>
+                    <div className="row">
+                        <div className="info_table">
+                            <div className="table_title">
+                                Score:
+                            </div>
+                            <hr/>
+                            <div className="table_value">
+                                461971
+                            </div>
+                        </div>
+                        <div className="info_table">
+                            <div className="table_title">
+                                Times played:
+                            </div>
+                            <hr/>
+                            <div className="table_value">
+                                1614
+                            </div>
+                        </div>
+                        <div className="info_table">
+                            <div className="table_title">
+                                Highscore:
+                            </div>
+                            <hr/>
+                            <div className="table_value">
+                                Seeker: 1497
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="all_scores_leaderboard_table">
+                    <div className="table_type">
+                        All scores leaderboard
+                        <hr/>
+                    </div>
+                    <div className="col">
+                        <div className="leaderboard_place">
+                            1. dfafefa Score: 424342928
+                        </div>
+                        <div className="leaderboard_place">
+                            2. dfafefa Score: 42434292
+                        </div>
+                        <div className="leaderboard_place">
+                            3. dfafefa Score: 4243429
+                        </div>
+                        <div className="leaderboard_place">
+                            4. dfafefa Score: 424342
+                        </div>
+                        <div className="leaderboard_place">
+                            5. dfafefa Score: 42434
+                        </div>
+                        <div className="leaderboard_place">
+                            6. dfafefa Score: 4243
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+/**
+ * <div className="row">
                 <div className="all_score_table">
                     <div className="table_type">
                         From all games
@@ -113,6 +181,4 @@ export const Leaderboard=() => {
                     </div>
                 </div>
             </div>
-        </div>
-    )
-}
+ */
