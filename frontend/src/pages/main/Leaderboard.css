@@ -1,0 +1,34 @@
+.col{
+    flex-direction: column;
+}
+
+.row{
+    flex-direction: row;
+}
+
+.all_score_table{
+    text-align: center;
+    background-color: #7a0000;
+    border: 3px solid #229b00;
+    border-radius: 20px;
+    padding: 0.5rem;
+    height: 14rem;
+    width: 13rem;
+    margin-top: 1rem;
+    margin-left: 1rem;
+    margin-right: auto;
+}
+
+.table_type{
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.table_title{
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.table_value{
+    font-size: 1.5rem;
+}
