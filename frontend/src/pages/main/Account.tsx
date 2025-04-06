@@ -1,4 +1,5 @@
 import React,{useState,useEffect} from "react";
+import {hashString} from "../../utils/hash";
 import "./Account.css"
 
 export const Account: React.FC=() => {
