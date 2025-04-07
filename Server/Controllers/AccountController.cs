@@ -10,13 +10,15 @@ namespace SE_II.Server.Controllers{
     public class AccountController : ControllerBase{
         private readonly ILogger<AccountController> _logger;
         private readonly IValidator<Account> _accountValidator;
+        private readonly IAccountRepository _accountRepository;
 
-        public AccountController(ILogger<AccountController> logger,IValidator<Account> validator){
+        public AccountController(ILogger<AccountController> logger,IValidator<Account> validator,IAccountRepository accountRepository){
             _logger=logger;
             _accountValidator=validator;
+            _accountRepository=accountRepository;
         }
 
-        [HttpPost]
+        [HttpPost("register")]
         public async Task<IActionResult> AddAccount([FromBody] AccountDTO newAccount){
             if(newAccount==null)
                 return BadRequest("Account details cannot be empty");
@@ -31,7 +33,7 @@ namespace SE_II.Server.Controllers{
             var exists=true;
 
             try{
-
+                var existingAccount=await _accountRepository.GetAccountByUsername(newAccount.Username);
             }catch(AccountNotFoundException){
                 exists=false;
             }catch(Exception ex){
@@ -45,7 +47,8 @@ namespace SE_II.Server.Controllers{
             }
 
             try{
-                return BadRequest("An error occurred while processing your request");
+                await _accountRepository.AddAccount(newAccount);
+                return Ok();
             }catch(Exception ex){
                 _logger.LogWarning(ex,"Error occurred while adding account");
                 return BadRequest("An error occurred while processing your request");

@@ -32,6 +32,22 @@ export const Account: React.FC=() => {
             }else{
                 setErrorType('')
             }
+
+            const response=await fetch("/api/Account/register",{
+                method:"POST",
+                headers:{"Content-Type":"application/json"},
+                body:JSON.stringify({
+                    username,
+                    password:hashString(password)
+                })
+            });
+
+            if(!response.ok){
+                var data=await response.text();
+                alert(data);
+                return;
+            }
+            return;
         }catch(error){
             console.error('Error creating account: ',error);
         }

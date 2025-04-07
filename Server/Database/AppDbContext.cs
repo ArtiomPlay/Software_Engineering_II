@@ -7,6 +7,11 @@ namespace SE_II.Server.Data{
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options){}
 
         public DbSet<AccountDTO> Accounts{get;set;}
+        public DbSet<AimTrainerScore> AimTrainerScores{get;set;}
+        public DbSet<MathGameScore> MathGameScores{get;set;}
+        public DbSet<SeekerScore> SeekerScores{get;set;}
+        public DbSet<SequenceScore> SequenceScores{get;set;}
+        public DbSet<TypingScore> TypingScores{get;set;}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder){
             var accountConfig=modelBuilder.Entity<AccountDTO>();
