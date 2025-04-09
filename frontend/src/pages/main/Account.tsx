@@ -1,5 +1,6 @@
 import React,{useState,useEffect} from "react";
 import {hashString} from "../../utils/hash";
+import {createSession} from "../../utils/session";
 import "./Account.css"
 
 export const Account: React.FC=() => {
@@ -34,17 +35,19 @@ export const Account: React.FC=() => {
             }
 
             const response=await fetch("/api/Account/register",{
-                method:"POST",
-                headers:{"Content-Type":"application/json"},
-                body:JSON.stringify({
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({
                     username,
                     password:hashString(password)
                 })
             });
 
             if(!response.ok){
-                setErrorType('accountRegister')
+                setRegisterErrorType('accountRegister')
             }
+
+            createSession({username});
             return;
         }catch(error){
             console.error('Error creating account: ',error);

@@ -30,6 +30,7 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite("Data S
 
 builder.Services.AddScoped<IAccountRepository,AccountRepository>();
 builder.Services.AddScoped<IValidator<Account>,Validator<Account>>();
+builder.Services.AddScoped<ISessionService,SessionService>();
 
 var app = builder.Build();
 
