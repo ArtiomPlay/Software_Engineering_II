@@ -17,12 +17,25 @@ namespace SE_II.Server.Repositories{
             await _context.SaveChangesAsync();
         }
 
+        public async Task<List<AccountDTO>> GetAllAccounts(){
+            return await _context.Accounts.ToListAsync();
+        }
+
         public async Task<AccountDTO> GetAccountByUsername(string username){
             var account=await _context.Accounts.FirstOrDefaultAsync(a => a.Username==username);
             if(account==null){
                 throw new AccountNotFoundException("Account not found with username: "+username);
             }
             return account;
+        }
+
+        public async Task DeleteAccount(string username){
+            var account=await _context.Accounts.FirstOrDefaultAsync(a => a.Username==username);
+            if(account==null)
+                throw new AccountNotFoundException("Account not found with username: "+username);
+
+            _context.Accounts.Remove(account);
+            await _context.SaveChangesAsync();
         }
     }
 }

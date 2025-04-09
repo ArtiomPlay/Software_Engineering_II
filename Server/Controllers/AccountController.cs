@@ -38,7 +38,7 @@ namespace SE_II.Server.Controllers{
                 exists=false;
             }catch(Exception ex){
                 _logger.LogWarning(ex,"Error occurred while checking if account exists with username: {Username}",newAccount.Username);
-                return BadRequest("An error occurred while processing your request");
+                return BadRequest("Error occurred while checking if account exists");
             }
 
             if(exists){
@@ -51,7 +51,32 @@ namespace SE_II.Server.Controllers{
                 return Ok();
             }catch(Exception ex){
                 _logger.LogWarning(ex,"Error occurred while adding account");
-                return BadRequest("An error occurred while processing your request");
+                return BadRequest("Error occurred while adding account");
+            }
+        }
+
+        [HttpPost("get_accounts")]
+        public async Task<ActionResult<List<AccountDTO>>> GetAccounts(){
+            try{
+                var accounts=await _accountRepository.GetAllAccounts();
+                return Ok(accounts);
+            }catch(Exception ex){
+                _logger.LogError(ex,"Error occured while getting accounts");
+                return BadRequest("Error occured while getting accounts");
+            }
+        }
+
+        [HttpDelete("delete/{username}")]
+        public async Task<IActionResult> DeleteAccount([FromRoute] string username){
+            try{
+                await _accountRepository.DeleteAccount(username);
+                return NoContent();
+            }catch(AccountNotFoundException){
+                _logger.LogWarning("Account not found with username: {Username}",username);
+                return NotFound("Account not found with username: "+username);
+            }catch(Exception ex){
+                _logger.LogError(ex,"Error occured while deleting account with username: {Username}",username);
+                return BadRequest("Error occured while deleting account");
             }
         }
     }

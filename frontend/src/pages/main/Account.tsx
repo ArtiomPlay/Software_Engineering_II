@@ -4,7 +4,7 @@ import "./Account.css"
 
 export const Account: React.FC=() => {
     const[username,setUsername]=useState('');
-    const[errorType,setErrorType]=useState('');
+    const[registerErrorType,setRegisterErrorType]=useState('');
 
     const register=async() => {
         const username=(document.getElementById("register_username") as HTMLInputElement).value;
@@ -12,25 +12,25 @@ export const Account: React.FC=() => {
 
         try{
             if (username==="" || password==="") {
-                setErrorType('emptyFields');
+                setRegisterErrorType('emptyFields');
                 throw new Error("Please fill in all fields");
             }if(username.length<4){
-                setErrorType('usernameShort');
+                setRegisterErrorType('usernameShort');
                 throw new Error("Username must be at least 4 characters long");
             }if(password.length<8){
-                setErrorType('passwordShort');
+                setRegisterErrorType('passwordShort');
                 throw new Error("Password must be at least 8 characters long");
             }if(password.length>20){
-                setErrorType('passwordLong');
+                setRegisterErrorType('passwordLong');
                 throw new Error("Password must be at most 20 characters long");
             }if(!/^[a-zA-Z0-9]+$/.test(username)){
-                setErrorType('usernameAlphanumeric');
+                setRegisterErrorType('usernameAlphanumeric');
                 throw new Error("Username must only contain alphanumeric characters");
             }if(!/^[a-zA-Z0-9]+$/.test(password)){
-                setErrorType('passwordAlphanumeric');
+                setRegisterErrorType('passwordAlphanumeric');
                 throw new Error("Password must only contain alphanumeric characters");
             }else{
-                setErrorType('')
+                setRegisterErrorType('')
             }
 
             const response=await fetch("/api/Account/register",{
@@ -43,9 +43,7 @@ export const Account: React.FC=() => {
             });
 
             if(!response.ok){
-                var data=await response.text();
-                alert(data);
-                return;
+                setErrorType('accountRegister')
             }
             return;
         }catch(error){
@@ -78,29 +76,33 @@ export const Account: React.FC=() => {
                     Password: <input type="password" id="register_password" name="register_password" placeholder="Enter your password"/>
                 </label>
                 <button className="submit_button" onClick={() => register()}>Register</button>
-                {errorType=='emptyFields' ? (
+                {registerErrorType=='emptyFields' ? (
                     <div className="error_message">
                         Please fill in all fields
                     </div>
-                ): errorType=='usernameShort' ? (
+                ): registerErrorType=='usernameShort' ? (
                     <div className="error_message">
                         Username must be at least 4 characters long
                     </div>
-                ): errorType=='passwordShort' ? (
+                ): registerErrorType=='passwordShort' ? (
                     <div className="error_message">
                         Password must be at least 8 characters long
                     </div>
-                ): errorType=='passwordLong' ? (
+                ): registerErrorType=='passwordLong' ? (
                     <div className="error_message">
                         Password must be at most 20 characters long
                     </div>
-                ): errorType=='usernameAlphanumeric' ? (
+                ): registerErrorType=='usernameAlphanumeric' ? (
                     <div className="error_message">
                         Username must only contain alphanumeric characters
                     </div>
-                ): errorType=='passwordAlphanumeric' ? (
+                ): registerErrorType=='passwordAlphanumeric' ? (
                     <div className="error_message">
                         Password must only contain alphanumeric characters
+                    </div>
+                ): registerErrorType=='accountRegister' ? (
+                    <div className="error_message">
+                        Error occured while processing to register account
                     </div>
                 ):(
                     <>

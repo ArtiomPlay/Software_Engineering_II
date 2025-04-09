@@ -5,8 +5,15 @@ using SE_II.Server.Interfaces;
 using SE_II.Server.Models;
 using SE_II.Server.Repositories;
 using SE_II.Server.Services;
+using Serilog;
+using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
+
+Log.Logger=new LoggerConfiguration()
+    .WriteTo.Console()
+    .WriteTo.File("Logs/log.txt",rollingInterval: RollingInterval.Hour,restrictedToMinimumLevel: LogEventLevel.Warning)
+    .CreateLogger();
 
 builder.Services.AddCors(options =>
 {
