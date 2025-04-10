@@ -66,6 +66,33 @@ namespace SE_II.Server.Controllers{
             }
         }
 
+        [HttpPost("get_account")]
+        public async Task<IActionResult> GetAccount([FromBody] AccountInfoDTO accountInfo){
+            if(accountInfo==null)
+                return BadRequest("Account login details cannot be empty");
+            
+            try{
+                _accountValidator.Validate(new Account(accountInfo.Username,accountInfo.Password));
+
+                var account=await _accountRepository.GetAccountByUsername(accountInfo.Username);
+                if(account==null || account.Password!= accountInfo.Password){
+                    _logger.LogWarning("Account not found with username: {Username} and password: {Password}",accountInfo.Username,accountInfo.Password);
+                    return NotFound("Account not found with username: "+accountInfo.Username);
+                }
+
+                return Ok(account);
+            }catch(InvalidCredentialsException ex){
+                _logger.LogWarning(ex,"Invalid credentials for account with username: {Username}", accountInfo.Username);
+                return BadRequest(ex.Message);
+            }catch(AccountNotFoundException){
+                _logger.LogWarning("Account not found with username: {Username}", accountInfo.Username);
+                return NotFound("Account not found with username: "+accountInfo.Username);
+            }catch(Exception ex){
+                _logger.LogError(ex,"Error occurred while getting account with username: {Username}", accountInfo.Username);
+                return BadRequest("Error occured while getting account");
+            }
+        }
+
         [HttpDelete("delete/{username}")]
         public async Task<IActionResult> DeleteAccount([FromRoute] string username){
             try{

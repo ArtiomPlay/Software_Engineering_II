@@ -48,7 +48,7 @@ export const getSession=async() => {
     }
 }
 
-export const logout=async() => {
+export const logoutSession=async() => {
     try{
         const response=await fetch("/api/Session/logout",{
             method: "POST",

@@ -21,11 +21,11 @@ namespace SE_II.Server.Controllers{
                 Secure=false,
                 Expires=DateTime.Now.AddMinutes(30)
             });
-
+            
             return Ok(new{SessionId=sessionId});
         }
 
-        [HttpPost("get")]
+        [HttpGet("get")]
         public IActionResult GetSession(){
             if(Request.Cookies.TryGetValue("SessionId",out var sessionId) && _sessionService.TryGetSession(sessionId,out var session)){
                 return Ok(session);

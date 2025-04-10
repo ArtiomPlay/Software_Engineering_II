@@ -20,23 +20,25 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowFrontend",
         policy => policy.WithOrigins("http://localhost:5173")  // Vite's default dev server
                         .AllowAnyHeader()
-                        .AllowAnyMethod());
+                        .AllowAnyMethod()
+                        .AllowCredentials()
+        );
 });
 
 builder.Services.AddControllers();
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddSingleton<ISessionService,SessionService>();
+
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite("Data Source=Database/appdb.db"));
 
 builder.Services.AddScoped<IAccountRepository,AccountRepository>();
 builder.Services.AddScoped<IValidator<Account>,Validator<Account>>();
-builder.Services.AddScoped<ISessionService,SessionService>();
 
 var app = builder.Build();
 
-app.UseCors("AllowFrontend");  // Apply CORS before controllers
-
 app.UseHttpsRedirection();
 app.UseAuthorization();
+app.UseCors("AllowFrontend");  // Apply CORS before controllers
 app.MapControllers();
 app.Run();
