@@ -1,4 +1,4 @@
-import "./Leaderboard.css"
+import "./Leaderboard.css";
 
 export const Leaderboard=() => {
     return(

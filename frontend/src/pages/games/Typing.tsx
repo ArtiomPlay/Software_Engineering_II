@@ -1,4 +1,4 @@
-import "./Typing.css"
+import "./Typing.css";
 
 export const Typing=() => {
     return(

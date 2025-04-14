@@ -39,6 +39,17 @@
     padding: 0.5rem;
 }
 
+.score{
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.score_num{
+    text-align: center;
+    font-size: 1.5rem;
+}
+
 .highscore{
     text-align: center;
     font-size: 2rem;
@@ -70,7 +81,6 @@
     height: 5rem;
     margin-left: auto;
     margin-right: auto;
-    padding-top: 15px;
     text-align: center;
     font-size: 2rem;
     font-weight: bold;
@@ -78,6 +88,27 @@
 }
 
     .start_button:hover{
+        transform: scale(1.1);
+        background-color: #c80000;
+        border: 3px solid #29bb00;
+    }
+
+.exit_button{
+    background-color: #9f0000;
+    border: 3px solid #29bb00;
+    border-radius: 20px;
+    width: 12rem;
+    height: 5rem;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+    .exit_button:hover{
         transform: scale(1.1);
         background-color: #c80000;
         border: 3px solid #29bb00;
@@ -92,6 +123,7 @@
     font-size: 2rem;
     font-weight: bold;
     padding: 0.5rem;
+    height: 20rem;
 }
 
 .leaderboard_values{
@@ -130,4 +162,13 @@
     height: 29rem;
     margin: auto;
     margin-top: 0.5rem;
+}
+
+.game_target{
+    cursor: pointer;
+    background-color: #00ba06;
+    border-radius: 50%;
+    position: relative;
+    width: 50px;
+    height: 50px;
 }

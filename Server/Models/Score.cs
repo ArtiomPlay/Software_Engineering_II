@@ -11,7 +11,9 @@ namespace SE_II.Server.Models{
     }
 
     public class AimTrainerScore : Score{}
-    public class MathGameScore : Score{}
+    public class MathGameScore : Score{
+        public string difficulty{get;set;}="medium";
+    }
     public class SequenceScore : Score{}
     public class SeekerScore : Score{}
     public class TypingScore : Score{}

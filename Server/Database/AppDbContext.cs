@@ -34,6 +34,7 @@ namespace SE_II.Server.Data{
             mathGameScoreConfig.ToTable("mathGameScores");
             mathGameScoreConfig.HasKey(c => c.Id);
             mathGameScoreConfig.Property(c => c.score).HasColumnName("score").IsRequired();
+            mathGameScoreConfig.Property(c => c.difficulty).HasColumnName("difficulty").IsRequired();
             mathGameScoreConfig.HasOne(c => c.Account)
                 .WithMany(u => u.MathGameScores)
                 .HasForeignKey(c => c.AccountId)

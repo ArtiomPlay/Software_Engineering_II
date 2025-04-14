@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from "react";
 import {hashString} from "../../utils/hash";
 import {createSession,getSession,logoutSession} from "../../utils/session";
-import "./Account.css"
+import "./Account.css";
 
 export const Account: React.FC=() => {
     const[loading,setLoading]=useState(true);
@@ -73,7 +73,7 @@ export const Account: React.FC=() => {
             createSession({username});
             return;
         }catch(error){
-            console.error('Error creating account: ',error);
+            console.error("Error creating account: ",error);
         }
     }
 

@@ -12,6 +12,7 @@ namespace SE_II.Server.Controllers{
             if(maxCoordinate.x<=0 || maxCoordinate.y<=0)
                 return BadRequest("Invalid dimensions provided");
 
+            Console.Write("Getting target");
             int targetSize=50;
 
             int x=_random.Next(0,maxCoordinate.x-targetSize);

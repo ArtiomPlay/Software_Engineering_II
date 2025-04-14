@@ -12,17 +12,6 @@ import {Sequence} from './pages/games/Sequence'
 import {Typing} from './pages/games/Typing'
 
 function App() {
-  /*
-  const [count, setCount] = useState(0)
-  const [message, setMessage] = useState("")
-
-  useEffect(() => {
-    fetch("/api/hello")
-      .then((res) => res.json())
-      .then((data) => setMessage(data.message))
-      .catch((error) => console.error("Error fetching API:", error))
-  }, [])*/
-
   return (
     <div className='page'>
       <BrowserRouter>

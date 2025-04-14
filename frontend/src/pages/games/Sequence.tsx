@@ -1,4 +1,4 @@
-import "./Sequence.css"
+import "./Sequence.css";
 
 export const Sequence=() => {
     return(

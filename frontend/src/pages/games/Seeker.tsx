@@ -1,4 +1,4 @@
-import "./Seeker.css"
+import "./Seeker.css";
 
 export const Seeker=() => {
     return(
