@@ -154,7 +154,7 @@
     font-weight: normal;
 }
 
-.game_area{
+.aim_trainer_area{
     background-color: #300000;
     border: 5px solid #176a00;
     border-radius: 20px;
@@ -164,7 +164,7 @@
     margin-top: 0.5rem;
 }
 
-.game_target{
+.aim_trainer_target{
     cursor: pointer;
     background-color: #00ba06;
     border-radius: 50%;

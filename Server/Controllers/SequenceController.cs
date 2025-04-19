@@ -11,6 +11,8 @@ namespace SE_II.Server.Controllers{
         public ActionResult<List<Coordinate>> GetCell([FromQuery] int level){
             List<Coordinate> sequence=new List<Coordinate>{};
 
+            Console.Write(level);
+
             while(sequence.Count()!=level){
                 sequence.Add(new Coordinate{x=_random.Next()%3,y=_random.Next()%3});
             }

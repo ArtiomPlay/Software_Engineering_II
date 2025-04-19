@@ -26,6 +26,7 @@ export const MathGame=() => {
     const [userAnswer,setUserAnswer]=useState<string>('');
     const [timeLeft,setTimeLeft]=useState(0);
     const [score,setScore]=useState(0);
+    const [consecutiveCorrect,setConsecutiveCorrect]=useState<number>(0);
     const [username,setUsername]=useState<string | null>(null);
 
     const startGame=async() => {
@@ -64,6 +65,23 @@ export const MathGame=() => {
             setUserAnswer('');
         }catch(error){
             console.error("Error getting equation: ",error);
+        }
+    };
+
+    const checkAnswer=() => {
+        if(!currentProblem) return;
+
+        const config=SCORING[difficulty];
+        const parsedAnswer=parseInt(userAnswer);
+
+        if(parsedAnswer===currentProblem.solution){
+            setScore(prev => prev+config.points);
+            setConsecutiveCorrect(prev => prev+1);
+
+            getEquation();
+        }else{
+            setScore(prev => Math.max(0,prev-config.penalty));
+            getEquation();
         }
     };
 
@@ -122,8 +140,9 @@ export const MathGame=() => {
                     type="number"
                     value={userAnswer}
                     onChange={(e) => setUserAnswer(e.target.value)}
+                    onKeyDown={(e) => e.key==='Enter' && checkAnswer()}
                     placeholder="Your answer"/>
-                <button className="check_button">Check</button>
+                <button onClick={checkAnswer} className="check_button">Check</button>
             </div>
         </>
     );
@@ -159,6 +178,7 @@ export const MathGame=() => {
                 </div>
                 <div className="col">
                     <button onClick={startGame} className="start_button">Restart</button>
+                    <button onClick={changeDifficulty} className="difficulty_button">Diffuculty: {difficulty}</button>
                     <button onClick={exitGame} className="exit_button">Exit</button>
                 </div>
                 <div className="leaderboard">
@@ -186,7 +206,7 @@ export const MathGame=() => {
     useEffect(() => {
         let timer: number;
         if(gameState==='started' && timeLeft>0){
-            //timer=setTimeout(() => setTimeLeft((prev) => prev-1),1000);
+            timer=setTimeout(() => setTimeLeft((prev) => prev-1),1000);
         }else if(gameState==='started' && timeLeft<=0){
             setGameState('ended');
         }

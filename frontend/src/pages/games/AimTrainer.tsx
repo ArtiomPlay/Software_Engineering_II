@@ -37,7 +37,6 @@ export const AimTrainer: React.FC=() => {
         if(gameAreaRef.current){
             const gameArea=gameAreaRef.current.getBoundingClientRect();
             
-
             try{
                 console.log(gameArea.width,gameArea.height);
 
@@ -121,9 +120,9 @@ export const AimTrainer: React.FC=() => {
                         Time left: {timeLeft}s
                     </div>
                 </div>
-                <div className="game_area" ref={gameAreaRef}>
+                <div className="aim_trainer_area" ref={gameAreaRef}>
                     {target && (
-                        <div className="game_target" onClick={handleTargetClick} style={{
+                        <div className="aim_trainer_target" onClick={handleTargetClick} style={{
                             top: target.y,
                             left: target.x
                         }}/>
