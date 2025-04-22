@@ -19,7 +19,7 @@ namespace SE_II.Server.Controllers
         }
 
         [HttpPost("{game}")]
-        public async Task<IActionResult> AddScoreToAccount(string game, [FromQuery] string accountName, [FromQuery] int score)
+        public async Task<IActionResult> AddScoreToAccount(string game, [FromQuery] string accountName, [FromQuery] int score, [FromQuery] string difficulty = "medium")
         {
             var account = await _context.Accounts.FirstOrDefaultAsync(a => a.Username == accountName);
             if (account == null)
@@ -35,7 +35,7 @@ namespace SE_II.Server.Controllers
                     _context.AimTrainerScores.Add(new AimTrainerScore { AccountId = account.Id, score = score });
                     break;
                 case "math":
-                    _context.MathGameScores.Add(new MathGameScore { AccountId = account.Id, score = score });
+                    _context.MathGameScores.Add(new MathGameScore { AccountId = account.Id, score = score, difficulty = difficulty });
                     break;
                 case "seeker":
                     _context.SeekerScores.Add(new SeekerScore { AccountId = account.Id, score = score });
