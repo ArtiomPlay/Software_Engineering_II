@@ -10,9 +10,9 @@ using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 
-Log.Logger=new LoggerConfiguration()
+Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
-    .WriteTo.File("Logs/log.txt",rollingInterval: RollingInterval.Hour,restrictedToMinimumLevel: LogEventLevel.Warning)
+    .WriteTo.File("Logs/log.txt", rollingInterval: RollingInterval.Hour, restrictedToMinimumLevel: LogEventLevel.Warning)
     .CreateLogger();
 
 builder.Services.AddCors(options =>
@@ -28,12 +28,13 @@ builder.Services.AddCors(options =>
 builder.Services.AddControllers();
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddSingleton<ISessionService,SessionService>();
+builder.Services.AddSingleton<ISessionService, SessionService>();
 
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite("Data Source=Database/appdb.db"));
 
-builder.Services.AddScoped<IAccountRepository,AccountRepository>();
-builder.Services.AddScoped<IValidator<Account>,Validator<Account>>();
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<IScoreRepository, ScoreRepository>();
+builder.Services.AddScoped<IValidator<Account>, Validator<Account>>();
 
 var app = builder.Build();
 

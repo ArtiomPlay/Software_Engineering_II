@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using SE_II.Server.Data;
-using SE_II.Server.Models;
+using SE_II.Server.Interfaces;
 
 namespace SE_II.Server.Controllers
 {
@@ -9,50 +7,56 @@ namespace SE_II.Server.Controllers
     [Route("api/[controller]")]
     public class ScoreController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IScoreRepository _scoreRepository;
         private readonly ILogger<ScoreController> _logger;
 
-        public ScoreController(AppDbContext context, ILogger<ScoreController> logger)
+        public ScoreController(IScoreRepository scoreRepository, ILogger<ScoreController> logger)
         {
-            _context = context;
+            _scoreRepository = scoreRepository;
             _logger = logger;
         }
 
         [HttpPost("{game}")]
-        public async Task<IActionResult> AddScoreToAccount(string game, [FromQuery] string accountName, [FromQuery] int score, [FromQuery] string difficulty = "medium")
+        public async Task<IActionResult> AddScore(string game, [FromQuery] string accountName, [FromQuery] int score, [FromQuery] string difficulty = "medium")
         {
-            var account = await _context.Accounts.FirstOrDefaultAsync(a => a.Username == accountName);
-            if (account == null)
+            try
             {
-                _logger.LogInformation("Not found.");
-                return NotFound("Account not found");
+                await _scoreRepository.AddScoreAsync(game, accountName, score, difficulty);
+                _logger.LogInformation($"Score added - Game: {game}, Account: {accountName}, Score: {score}");
+                return Ok("Score added successfully");
             }
-
-
-            switch (game.ToLower())
+            catch (ArgumentException ex)
             {
-                case "aim":
-                    _context.AimTrainerScores.Add(new AimTrainerScore { AccountId = account.Id, score = score });
-                    break;
-                case "math":
-                    _context.MathGameScores.Add(new MathGameScore { AccountId = account.Id, score = score, difficulty = difficulty });
-                    break;
-                case "seeker":
-                    _context.SeekerScores.Add(new SeekerScore { AccountId = account.Id, score = score });
-                    break;
-                case "sequence":
-                    _context.SequenceScores.Add(new SequenceScore { AccountId = account.Id, score = score });
-                    break;
-                case "typing":
-                    _context.TypingScores.Add(new TypingScore { AccountId = account.Id, score = score });
-                    break;
-                default:
-                    return BadRequest("Invalid game type");
+                return BadRequest(ex.Message);
             }
+        }
 
-            await _context.SaveChangesAsync();
-            _logger.LogInformation($"Score Received - Game: {game}, Account: {accountName}, Score: {score}");
-            return Ok("Score added successfully");
+        [HttpGet("{game}/account")]
+        public async Task<IActionResult> GetAccountScores(string game, [FromQuery] string accountName)
+        {
+            try
+            {
+                var scores = await _scoreRepository.GetScoresByAccountAsync(game, accountName);
+                return Ok(scores);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("{game}/all")]
+        public async Task<IActionResult> GetAllScores(string game)
+        {
+            try
+            {
+                var scores = await _scoreRepository.GetAllScoresAsync(game);
+                return Ok(scores);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
