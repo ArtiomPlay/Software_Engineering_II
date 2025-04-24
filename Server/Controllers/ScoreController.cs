@@ -58,5 +58,19 @@ namespace SE_II.Server.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("{game}/highscore")]
+        public async Task<IActionResult> GetAccountHighscore(string game, [FromQuery] string accountName)
+        {
+            try
+            {
+                var highscore = await _scoreRepository.GetHighScoreByAccountAsync(game, accountName);
+                return Ok(highscore);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
