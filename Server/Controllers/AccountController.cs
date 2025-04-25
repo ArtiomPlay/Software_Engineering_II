@@ -55,7 +55,7 @@ namespace SE_II.Server.Controllers{
             }
         }
 
-        [HttpPost("get_accounts")]
+        [HttpGet("get_accounts")]
         public async Task<ActionResult<List<AccountDTO>>> GetAccounts(){
             try{
                 var accounts=await _accountRepository.GetAllAccounts();
