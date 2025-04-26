@@ -26,7 +26,7 @@ namespace SE_II.Server.Services
                     continue;
 
                 var allScores = await _scoreRepository.GetAllScoresAsync(game);
-                if (allScores.Count == 0)
+                if (allScores.Count ==0)
                     continue;
 
                 double averageScore = allScores.Average();
