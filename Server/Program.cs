@@ -43,3 +43,5 @@ app.UseAuthorization();
 app.UseCors("AllowFrontend");  // Apply CORS before controllers
 app.MapControllers();
 app.Run();
+
+public partial class Program{}
