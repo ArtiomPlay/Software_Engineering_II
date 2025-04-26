@@ -16,7 +16,7 @@ namespace SE_II.Server.Controllers
             _logger = logger;
         }
 
-        [HttpPost("{game}")]
+        [HttpPost("{game}/add_score")]
         public async Task<IActionResult> AddScore(string game, [FromQuery] string accountName, [FromQuery] int score, [FromQuery] string difficulty = "medium")
         {
             try
@@ -35,7 +35,7 @@ namespace SE_II.Server.Controllers
             }
         }
 
-        [HttpGet("{game}/account")]
+        [HttpGet("{game}/get_account_scores")]
         public async Task<IActionResult> GetAccountScores(string game, [FromQuery] string accountName)
         {
             try
@@ -53,7 +53,7 @@ namespace SE_II.Server.Controllers
             }
         }
 
-        [HttpGet("{game}/all")]
+        [HttpGet("{game}/get_all_scores")]
         public async Task<IActionResult> GetAllScores(string game)
         {
             try
@@ -71,7 +71,7 @@ namespace SE_II.Server.Controllers
             }
         }
 
-        [HttpGet("{game}/highscore")]
+        [HttpGet("{game}/get_highscore")]
         public async Task<IActionResult> GetAccountHighscore(string game, [FromQuery] string accountName)
         {
             try
