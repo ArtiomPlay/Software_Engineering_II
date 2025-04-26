@@ -1,9 +1,6 @@
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
 using SE_II.Server.Data;
-using SE_II.Server.Enums;
-using SE_II.Server.Models;
 using SE_II.Server.DTOs;
 using System.Net.Http.Json;
 using Microsoft.EntityFrameworkCore;

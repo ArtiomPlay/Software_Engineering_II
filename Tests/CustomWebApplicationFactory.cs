@@ -5,6 +5,8 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SE_II.Server.Data;
+using SE_II.Server.Services;
+using SE_II.Server.Interfaces;
 using System.Data.Common;
 
 namespace SE_II.Tests{
