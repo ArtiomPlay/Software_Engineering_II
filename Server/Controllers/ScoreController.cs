@@ -29,6 +29,10 @@ namespace SE_II.Server.Controllers
             {
                 return BadRequest(ex.Message);
             }
+            catch (Exception)
+            {
+                return StatusCode(500, "An unexpected error occurred.");
+            }
         }
 
         [HttpGet("{game}/account")]
@@ -42,6 +46,10 @@ namespace SE_II.Server.Controllers
             catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "An unexpected error occurred.");
             }
         }
 
@@ -57,6 +65,10 @@ namespace SE_II.Server.Controllers
             {
                 return BadRequest(ex.Message);
             }
+            catch (Exception)
+            {
+                return StatusCode(500, "An unexpected error occurred.");
+            }
         }
 
         [HttpGet("{game}/highscore")]
@@ -70,6 +82,10 @@ namespace SE_II.Server.Controllers
             catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "An unexpected error occurred.");
             }
         }
     }
