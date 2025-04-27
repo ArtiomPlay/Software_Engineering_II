@@ -109,7 +109,7 @@ export const AimTrainer: React.FC=() => {
         }catch(error){
             console.error("Error getting stats: ",error);
         }
-    }
+    };
 
     const getLeaderboard=async() => {
         try{
@@ -127,7 +127,7 @@ export const AimTrainer: React.FC=() => {
         }catch(error){
             console.error("Error getting leaderboard: ",error)
         }
-    }
+    };
 
     const saveScore=async() => {
         try{
@@ -153,7 +153,7 @@ export const AimTrainer: React.FC=() => {
         }catch(error){
             console.error("Error saving score: ",error);
         }
-    }
+    };
 
     const renderMainMenu=() => (
         <>
