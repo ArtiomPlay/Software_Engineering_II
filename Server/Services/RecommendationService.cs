@@ -29,7 +29,7 @@ namespace SE_II.Server.Services
                 if (allScores.Count == 0)
                     continue;
 
-                double averageScore = allScores.Average();
+                double averageScore = allScores.Select(s => s.score).Average();
                 double userAverageScore = userScores.Average();
 
                 double performanceRatio = userAverageScore / averageScore;

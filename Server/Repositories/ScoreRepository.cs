@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using SE_II.Server.Data;
 using SE_II.Server.Interfaces;
 using SE_II.Server.Models;
+using SE_II.Server.DTOs;
 
 namespace SE_II.Server.Repositories
 {
@@ -74,15 +75,55 @@ namespace SE_II.Server.Repositories
             };
         }
 
-        public async Task<List<int>> GetAllScoresAsync(string game)
+        public async Task<List<ScoreDTO>> GetAllScoresAsync(string game,int limit=10)
         {
             return game.ToLower() switch
             {
-                "aim" => await _context.AimTrainerScores.Select(s => s.score).ToListAsync(),
-                "math" => await _context.MathGameScores.Select(s => s.score).ToListAsync(),
-                "seeker" => await _context.SeekerScores.Select(s => s.score).ToListAsync(),
-                "sequence" => await _context.SequenceScores.Select(s => s.score).ToListAsync(),
-                "typing" => await _context.TypingScores.Select(s => s.score).ToListAsync(),
+                "aim" =>
+                    await _context.AimTrainerScores
+                        .OrderByDescending(s => s.score)
+                        .Take(limit)
+                        .Select(s => new ScoreDTO{
+                            Username=s.Account.Username,
+                            score=s.score
+                        })
+                        .ToListAsync(),
+                "math" =>
+                    await _context.MathGameScores
+                        .OrderByDescending(s => s.score)
+                        .Take(limit)
+                        .Select(s => new ScoreDTO{
+                            Username=s.Account.Username,
+                            score=s.score
+                        })
+                        .ToListAsync(),
+                "seeker" =>
+                    await _context.SeekerScores
+                        .OrderByDescending(s => s.score)
+                        .Take(limit)
+                        .Select(s => new ScoreDTO{
+                            Username=s.Account.Username,
+                            score=s.score
+                        })
+                        .ToListAsync(),
+                "sequence" =>
+                    await _context.SequenceScores
+                        .OrderByDescending(s => s.score)
+                        .Take(limit)
+                        .Select(s => new ScoreDTO{
+                            Username=s.Account.Username,
+                            score=s.score
+                        })
+                        .ToListAsync(),
+                "typing" =>
+                    await _context.TypingScores
+                        .OrderByDescending(s => s.score)
+                        .Take(limit)
+                        .Select(s => new ScoreDTO{
+                            Username=s.Account.Username,
+                            score=s.score
+                        })
+                        .ToListAsync(),
                 _ => throw new ArgumentException("Invalid game type")
             };
         }

@@ -1,6 +1,6 @@
 import React,{useState,useEffect,useCallback} from "react";
 import {getSession} from "../../utils/session";
-import "./MathGame.css";
+import styles from "./MathGame.module.css";
 
 interface Equation{
     formula: string;
@@ -87,34 +87,34 @@ export const MathGame=() => {
 
     const renderMainMenu=() => (
         <>
-            <div className="game_title">
+            <div className={styles.game_title}>
                 Math Game
             </div>
-            <div className="main row">
-                <div className="personal_stats">
-                    <div className="highscore">
+            <div className={`${styles.main} ${styles.row}`}>
+                <div className={styles.personal_stats}>
+                    <div className={styles.highscore}>
                         Highscore
                     </div>
                     <hr/>
-                    <div className="highscore_num">
+                    <div className={styles.highscore_num}>
                         154
                     </div>
-                    <div className="times_played">
+                    <div className={styles.times_played}>
                         Times played
                     </div>
                     <hr/>
-                    <div className="times_played_num">
+                    <div className={styles.times_played_num}>
                         40
                     </div>
                 </div>
-                <div className="col">
-                    <button onClick={startGame} className="start_button">Start</button>
-                    <button onClick={changeDifficulty} className="difficulty_button">Diffuculty: {difficulty}</button>
+                <div className={styles.col}>
+                    <button onClick={startGame} className={styles.start_button}>Start</button>
+                    <button onClick={changeDifficulty} className={styles.difficulty_button}>Diffuculty: {difficulty}</button>
                 </div>
-                <div className="leaderboard">
+                <div className={styles.leaderboard}>
                     Leaderboard
                     <hr/>
-                    <div className="leaderboard_values">
+                    <div className={styles.leaderboard_values}>
                         1. Artiom
                     </div>
                 </div>
@@ -124,67 +124,67 @@ export const MathGame=() => {
 
     const renderGame=() => (
         <>
-            <div className="col">
-                <div className="row">
-                    <div className="game_score">
+            <div className={styles.col}>
+                <div className={styles.row}>
+                    <div className={styles.game_score}>
                         Score: {score}
                     </div>
-                    <div className="game_timer">
+                    <div className={styles.game_timer}>
                         Time left: {timeLeft}s
                     </div>
                 </div>
-                <div className="formula">
+                <div className={styles.formula}>
                     {currentProblem?.formula}=?
                 </div>
-                <input className="user_input"
+                <input className={styles.user_input}
                     type="number"
                     value={userAnswer}
                     onChange={(e) => setUserAnswer(e.target.value)}
                     onKeyDown={(e) => e.key==='Enter' && checkAnswer()}
                     placeholder="Your answer"/>
-                <button onClick={checkAnswer} className="check_button">Check</button>
+                <button onClick={checkAnswer} className={styles.check_button}>Check</button>
             </div>
         </>
     );
 
     const renderEndMenu=() => (
         <>
-            <div className="game_title">
+            <div className={styles.game_title}>
                 Game Ended
             </div>
-            <div className="main row">
-                <div className="personal_stats">
-                    <div className="score">
+            <div className={`${styles.main} ${styles.row}`}>
+                <div className={styles.personal_stats}>
+                    <div className={styles.score}>
                         Score
                     </div>
                     <hr/>
-                    <div className="score_num">
+                    <div className={styles.score_num}>
                         {score}
                     </div>
-                    <div className="highscore">
+                    <div className={styles.highscore}>
                         Highscore
                     </div>
                     <hr/>
-                    <div className="highscore_num">
+                    <div className={styles.highscore_num}>
                         154
                     </div>
-                    <div className="times_played">
+                    <div className={styles.times_played}>
                         Times played
                     </div>
                     <hr/>
-                    <div className="times_played_num">
+                    <div className={styles.times_played_num}>
                         40
                     </div>
                 </div>
-                <div className="col">
-                    <button onClick={startGame} className="start_button">Restart</button>
-                    <button onClick={changeDifficulty} className="difficulty_button">Diffuculty: {difficulty}</button>
-                    <button onClick={exitGame} className="exit_button">Exit</button>
+                <div className={styles.col}>
+                    <button onClick={startGame} className={styles.start_button}>Restart</button>
+                    <button onClick={changeDifficulty} className={styles.difficulty_button}>Diffuculty: {difficulty}</button>
+                    <button onClick={exitGame} className={styles.exit_button}>Exit</button>
                 </div>
-                <div className="leaderboard">
+                <div className={styles.leaderboard}>
                     Leaderboard
                     <hr/>
-                    <div className="leaderboard_values">
+                    <div className={styles.leaderboard_values}>
                         1. Artiom
                     </div>
                 </div>
@@ -213,7 +213,7 @@ export const MathGame=() => {
     },[timeLeft,gameState]);
 
     return(
-        <div className="game_window">
+        <div className={styles.game_window}>
             {gameState=='main' && renderMainMenu()}
             {gameState=='started' && renderGame()}
             {gameState=='ended' && renderEndMenu()}

@@ -1,8 +1,10 @@
 .col{
+    display: flex;
     flex-direction: column;
 }
 
 .row{
+    display: flex;
     flex-direction: row;
 }
 
@@ -27,16 +29,20 @@
 
 .main{
     align-items: center;
-    margin-top: 6rem;
+    margin-top: 3rem;
     margin-bottom: auto;
 }
 
 .personal_stats{
+    align-content: center;
     background-color: #8e0303;
     border-radius: 20px;
     margin-left: 8rem;
     margin-right: auto;
+    height: 21rem;
+    width: 19rem;
     padding: 0.5rem;
+    overflow: auto;
 }
 
 .score{
@@ -79,8 +85,8 @@
     border-radius: 20px;
     width: 12rem;
     height: 5rem;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
     text-align: center;
     font-size: 2rem;
     font-weight: bold;
@@ -118,12 +124,14 @@
     background-color: #8e0303;
     border-radius: 20px;
     margin-left: auto;
-    margin-right: 8rem;
+    margin-right: 6rem;
     text-align: center;
     font-size: 2rem;
     font-weight: bold;
     padding: 0.5rem;
-    height: 20rem;
+    height: 21rem;
+    width: 19rem;
+    overflow: auto;
 }
 
 .leaderboard_values{
@@ -154,7 +162,7 @@
     font-weight: normal;
 }
 
-.game_area{
+.aim_trainer_area{
     background-color: #300000;
     border: 5px solid #176a00;
     border-radius: 20px;
@@ -164,14 +172,11 @@
     margin-top: 0.5rem;
 }
 
-.seeker_area{
-    justify-items: center;
-    margin-top: 2rem;
-}
-
-.seeker_tile{
-    border: 1px solid #e0e0e0;
-    width: 2.5rem;
-    height: 2.5rem;
+.aim_trainer_target{
     cursor: pointer;
+    background-color: #00ba06;
+    border-radius: 50%;
+    position: relative;
+    width: 50px;
+    height: 50px;
 }

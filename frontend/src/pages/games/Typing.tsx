@@ -1,6 +1,6 @@
 import React,{useState,useEffect,useRef} from "react";
 import {getSession} from "../../utils/session";
-import "./Typing.css";
+import styles from "./Typing.module.css";
 
 export const Typing=() => {
     const [gameState,setGameState]=useState<'main' | 'started' | 'ended'>('main');
@@ -39,31 +39,31 @@ export const Typing=() => {
 
     const renderMainMenu=() => (
         <>
-            <div className="game_title">
+            <div className={styles.game_title}>
                 Typing
             </div>
-            <div className="main row">
-                <div className="personal_stats">
-                    <div className="highscore">
+            <div className={`${styles.main} ${styles.row}`}>
+                <div className={styles.personal_stats}>
+                    <div className={styles.highscore}>
                         Highscore
                     </div>
                     <hr/>
-                    <div className="highscore_num">
+                    <div className={styles.highscore_num}>
                         154
                     </div>
-                    <div className="times_played">
+                    <div className={styles.times_played}>
                         Times played
                     </div>
                     <hr/>
-                    <div className="times_played_num">
+                    <div className={styles.times_played_num}>
                         40
                     </div>
                 </div>
-                <button onClick={startGame} className="start_button">Start</button>
-                <div className="leaderboard">
+                <button onClick={startGame} className={styles.start_button}>Start</button>
+                <div className={styles.leaderboard}>
                     Leaderboard
                     <hr/>
-                    <div className="leaderboard_values">
+                    <div className={styles.leaderboard_values}>
                         1. Artiom
                     </div>
                 </div>
@@ -73,55 +73,55 @@ export const Typing=() => {
 
     const renderGame=() => (
         <>
-            <div className="col">
-                <div className="row">
-                    <div className="game_timer">
+            <div className={styles.col}>
+                <div className={styles.row}>
+                    <div className={styles.game_timer}>
                         Time left: {timeLeft}s
                     </div>
                 </div>
-                <label className="game_text">{text}</label>
-                <textarea className="game_user_input" id="user_typing"></textarea>
+                <label className={styles.game_text}>{text}</label>
+                <textarea className={styles.game_user_input} id="user_typing"></textarea>
             </div>
         </>
     );
 
     const renderEndMenu=() => (
         <>
-            <div className="game_title">
+            <div className={styles.game_title}>
                 Game Ended
             </div>
-            <div className="main row">
-                <div className="personal_stats">
-                    <div className="score">
+            <div className={`${styles.main} ${styles.row}`}>
+                <div className={styles.personal_stats}>
+                    <div className={styles.score}>
                         Score
                     </div>
                     <hr/>
-                    <div className="score_num">
+                    <div className={styles.score_num}>
                         {score}
                     </div>
-                    <div className="highscore">
+                    <div className={styles.highscore}>
                         Highscore
                     </div>
                     <hr/>
-                    <div className="highscore_num">
+                    <div className={styles.highscore_num}>
                         154
                     </div>
-                    <div className="times_played">
+                    <div className={styles.times_played}>
                         Times played
                     </div>
                     <hr/>
-                    <div className="times_played_num">
+                    <div className={styles.times_played_num}>
                         40
                     </div>
                 </div>
-                <div className="col">
-                    <button onClick={startGame} className="start_button">Restart</button>
-                    <button onClick={exitGame} className="exit_button">Exit</button>
+                <div className={styles.col}>
+                    <button onClick={startGame} className={styles.start_button}>Restart</button>
+                    <button onClick={exitGame} className={styles.exit_button}>Exit</button>
                 </div>
-                <div className="leaderboard">
+                <div className={styles.leaderboard}>
                     Leaderboard
                     <hr/>
-                    <div className="leaderboard_values">
+                    <div className={styles.leaderboard_values}>
                         1. Artiom
                     </div>
                 </div>
@@ -152,7 +152,7 @@ export const Typing=() => {
     },[timeLeft,gameState]);
 
     return(
-        <div className="game_window">
+        <div className={styles.game_window}>
             {gameState=='main' && renderMainMenu()}
             {gameState=='started' && renderGame()}
             {gameState=='ended' && renderEndMenu()}

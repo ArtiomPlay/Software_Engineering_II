@@ -54,11 +54,11 @@ namespace SE_II.Server.Controllers
         }
 
         [HttpGet("{game}/get_all_scores")]
-        public async Task<IActionResult> GetAllScores(string game)
+        public async Task<IActionResult> GetAllScores(string game,[FromQuery] int limit=10)
         {
             try
             {
-                var scores = await _scoreRepository.GetAllScoresAsync(game);
+                var scores = await _scoreRepository.GetAllScoresAsync(game,limit);
                 return Ok(scores);
             }
             catch (ArgumentException ex)
