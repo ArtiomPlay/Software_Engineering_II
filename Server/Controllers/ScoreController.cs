@@ -16,7 +16,7 @@ namespace SE_II.Server.Controllers
             _logger = logger;
         }
 
-        [HttpPost("{game}")]
+        [HttpPost("{game}/add_score")]
         public async Task<IActionResult> AddScore(string game, [FromQuery] string accountName, [FromQuery] int score, [FromQuery] string difficulty = "medium")
         {
             try
@@ -35,7 +35,18 @@ namespace SE_II.Server.Controllers
             }
         }
 
-        [HttpGet("{game}/account")]
+        [HttpGet("get_all_stats")]
+        public async Task<IActionResult> GetAllStats([FromQuery]int limit=10){
+            try{
+                var stats=await _scoreRepository.GetAllStatsAsync(limit);
+
+                return Ok(stats);
+            }catch(Exception){
+                return StatusCode(500,"An unexpected error occurred.");
+            }
+        }
+
+        [HttpGet("{game}/get_account_scores")]
         public async Task<IActionResult> GetAccountScores(string game, [FromQuery] string accountName)
         {
             try
@@ -53,12 +64,12 @@ namespace SE_II.Server.Controllers
             }
         }
 
-        [HttpGet("{game}/all")]
-        public async Task<IActionResult> GetAllScores(string game)
+        [HttpGet("{game}/get_all_scores")]
+        public async Task<IActionResult> GetAllScores(string game,[FromQuery] int limit=10)
         {
             try
             {
-                var scores = await _scoreRepository.GetAllScoresAsync(game);
+                var scores = await _scoreRepository.GetAllScoresAsync(game,limit);
                 return Ok(scores);
             }
             catch (ArgumentException ex)
@@ -71,7 +82,7 @@ namespace SE_II.Server.Controllers
             }
         }
 
-        [HttpGet("{game}/highscore")]
+        [HttpGet("{game}/get_highscore")]
         public async Task<IActionResult> GetAccountHighscore(string game, [FromQuery] string accountName)
         {
             try

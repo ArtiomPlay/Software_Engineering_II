@@ -8,7 +8,7 @@ export const Home=() => {
         <div className="col tile_position">
             <div className="row">
                 <div className="game_tile" onClick={() => navigate("/aimtrainer")}>
-                    <div className="title">Melon Ninja</div>
+                    <div className="title">Aim Trainer</div>
                     <div className="description">
                         Slice as many Melons as possible
                     </div>
@@ -16,13 +16,13 @@ export const Home=() => {
                 <div className="game_tile" onClick={() => navigate("/mathgame")}>
                     <div className="title">Math Game</div>
                     <div className="description">
-
+                        Solve simple mathematical problems
                     </div>
                 </div>
                 <div className="game_tile" onClick={() => navigate("/seeker")}>
                     <div className="title">Seeker</div>
                     <div className="description">
-
+                        Track the square
                     </div>
                 </div>
             </div>

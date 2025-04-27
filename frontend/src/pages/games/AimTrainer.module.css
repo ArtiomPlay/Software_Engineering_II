@@ -1,8 +1,10 @@
 .col{
+    display: flex;
     flex-direction: column;
 }
 
 .row{
+    display: flex;
     flex-direction: row;
 }
 
@@ -27,15 +29,27 @@
 
 .main{
     align-items: center;
-    margin-top: 6rem;
+    margin-top: 3rem;
     margin-bottom: auto;
 }
 
 .personal_stats{
+    align-content: center;
     background-color: #8e0303;
     border-radius: 20px;
     margin-left: 8rem;
     margin-right: auto;
+    height: 21rem;
+    width: 19rem;
+    padding: 0.5rem;
+    overflow: auto;
+}
+
+.no_personal_stats{
+    margin-left: 0rem;
+    margin-right: auto;
+    height: 21rem;
+    width: 0rem;
     padding: 0.5rem;
 }
 
@@ -79,8 +93,8 @@
     border-radius: 20px;
     width: 12rem;
     height: 5rem;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
     text-align: center;
     font-size: 2rem;
     font-weight: bold;
@@ -88,27 +102,6 @@
 }
 
     .start_button:hover{
-        transform: scale(1.1);
-        background-color: #c80000;
-        border: 3px solid #29bb00;
-    }
-
-.difficulty_button{
-    background-color: #9f0000;
-    border: 3px solid #29bb00;
-    border-radius: 20px;
-    width: 12rem;
-    height: 6rem;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 1rem;
-    text-align: center;
-    font-size: 2rem;
-    font-weight: bold;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-    .difficulty_button:hover{
         transform: scale(1.1);
         background-color: #c80000;
         border: 3px solid #29bb00;
@@ -139,12 +132,14 @@
     background-color: #8e0303;
     border-radius: 20px;
     margin-left: auto;
-    margin-right: 8rem;
+    margin-right: 6rem;
     text-align: center;
     font-size: 2rem;
     font-weight: bold;
     padding: 0.5rem;
-    height: 20rem;
+    height: 21rem;
+    width: 19rem;
+    overflow: auto;
 }
 
 .leaderboard_values{
@@ -175,55 +170,21 @@
     font-weight: normal;
 }
 
-.formula{
+.aim_trainer_area{
     background-color: #300000;
     border: 5px solid #176a00;
     border-radius: 20px;
-    width: 30rem;
-    height: 3rem;
-    padding: 1rem;
+    width: 74rem;
+    height: 29rem;
     margin: auto;
-    margin-top: 2rem;
-    font-size: 2rem;
-    font-weight: bold;
-    text-align: center;
-    align-content: center;
+    margin-top: 0.5rem;
 }
 
-.user_input{
-    display: flex;
-    background: #3e0000;
-    border: 3px solid #197400;
-    border-radius: 10px;
-    align-items: center;
-    text-align: left;
-    font-size: 1rem;
-    font-weight: bold;
-    width: 20rem;
-    height: 3rem;
-    padding-left: 0.7rem;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 2rem;
+.aim_trainer_target{
+    cursor: pointer;
+    background-color: #00ba06;
+    border-radius: 50%;
+    position: relative;
+    width: 50px;
+    height: 50px;
 }
-
-.check_button{
-    background-color: #710000;
-    border: 3px solid #1f9000;
-    border-radius: 20px;
-    width: 12rem;
-    height: 5rem;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 2rem;
-    text-align: center;
-    font-size: 2rem;
-    font-weight: bold;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-    .check_button:hover{
-        transform: scale(1.1);
-        background-color: #ab0000;
-        border: 3px solid #23a000;
-    }

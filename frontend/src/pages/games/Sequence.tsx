@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { getSession } from "../../utils/session";
-import "./Sequence.css";
+import styles from "./Sequence.module.css";
 
 interface Coordinate {
     x: number;
@@ -18,9 +18,9 @@ export const Sequence = () => {
     const [score, setScore] = useState(0);
     const [level, setLevel] = useState(0);
     const [correct, setCorrect] = useState(0);
-    //const [username,setUsername]=useState<string | null>(null);
-
-    const username = "Emil"; // For testing
+    const [highscore,setHighscore]=useState(0);
+    const [timesPlayed,setTimesPlayed]=useState(0);
+    const [leaderboard,setLeaderboard]=useState<{username: string,score: number}[]>([]);
 
     const startGame = async () => {
         const newLevel = 1;
@@ -49,7 +49,7 @@ export const Sequence = () => {
 
     const exitGame = async () => {
         setGameState("main");
-    }
+    };
 
     const getTarget = async (lvl: number) => {
         try {
@@ -66,7 +66,7 @@ export const Sequence = () => {
         } catch (error) {
             console.error("Error getting target: ", error);
         }
-    }
+    };
 
     const playAnimation = (data: Coordinate[]) => {
         setTimeout(() => {
@@ -78,7 +78,7 @@ export const Sequence = () => {
             });
         }, 500);
         setTimeout(() => setShow(false), targetSequence.length * 500 + 500);
-    }
+    };
 
     const handleTargetClick = (row: number, col: number) => {
         if (show)
@@ -97,49 +97,122 @@ export const Sequence = () => {
             setCorrect(0)
             setTimeout(() => setGameState("ended"), 500);
         }
+    };
+
+    const getStats=async() => {
+        try{
+            const session=await getSession();
+            var username=session.username;
+            if(!username){
+                console.error("No username found. Cannot save score");
+                return;
+            }
+
+            const response=await fetch(`api/Score/sequence/get_account_scores?accountName=${username}`,{
+                method: "GET"
+            });
+
+            if(!response.ok){
+                console.error("Failed to fetch scores");
+                return;
+            }
+
+            const scores: number[]=await response.json();
+
+            setTimesPlayed(scores.length);
+
+            if(scores.length>0){
+                const maxScore=Math.max(...scores);
+                setHighscore(maxScore);
+            }else{
+                setHighscore(0);
+                setTimesPlayed(0);
+            }
+        }catch(error){
+            console.error("Error getting stats: ",error);
+        }
     }
 
-    const sendScore = async (finalScore: number) => {
-        try {
-            const response = await fetch(`/api/score/sequence?accountName=${username}&score=${finalScore}`, {
-                method: 'POST',
+    const getLeaderboard=async() => {
+        try{
+            const response=await fetch(`api/Score/sequence/get_all_scores?limit=10`,{
+                method: "GET"
             });
-            if (!response.ok) {
-                console.error('Failed to submit score:', response.statusText);
+
+            if(response.ok){
+                const data=await response.json();
+                console.log("Leaderboard data:", data);
+                setLeaderboard(data);
+            }else{
+                console.error("Failed to get leaderboard");
             }
-        } catch (error) {
-            console.error('Error submitting score:', error);
+        }catch(error){
+            console.error("Error getting leaderboard: ",error)
+        }
+    }
+
+    const saveScore=async() => {
+        try{
+            const session=await getSession();
+            var username=session.username;
+            if(!username){
+                console.error("No username found. Cannot save score");
+                return;
+            }
+
+            const response=await fetch(`api/Score/sequence/add_score?accountName=${username}&score=${score}`,{
+                method: "POST",
+                headers: {"Content-Type": "application/json"}
+            });
+
+            if(response.ok){
+                console.log("Score saved succesfully!");
+                const result=await response.text();
+                console.log(result);
+            }else{
+                console.error("Failed to save score")
+            }
+        }catch(error){
+            console.error("Error saving score: ",error);
         }
     };
 
     const renderMainMenu = () => (
         <>
-            <div className="game_title">
+            <div className={styles.game_title}>
                 Sequence
             </div>
-            <div className="main row">
-                <div className="personal_stats">
-                    <div className="highscore">
-                        Highscore
+            <div className={`${styles.main} ${styles.row}`}>
+                {timesPlayed==0 ? (
+                    <div className={styles.no_personal_stats}></div>
+                ) : (
+                    <div className={styles.personal_stats}>
+                        <div className={styles.highscore}>
+                            Highscore
+                        </div>
+                        <hr/>
+                        <div className={styles.highscore_num}>
+                            {highscore}
+                        </div>
+                        <div className={styles.times_played}>
+                            Times played
+                        </div>
+                        <hr/>
+                        <div className={styles.times_played_num}>
+                            {timesPlayed}
+                        </div>
                     </div>
-                    <hr />
-                    <div className="highscore_num">
-                        154
-                    </div>
-                    <div className="times_played">
-                        Times played
-                    </div>
-                    <hr />
-                    <div className="times_played_num">
-                        40
-                    </div>
-                </div>
-                <button onClick={startGame} className="start_button">Start</button>
-                <div className="leaderboard">
+                )}
+                <button onClick={startGame} className={styles.start_button}>Start</button>
+                <div className={styles.leaderboard}>
                     Leaderboard
                     <hr />
-                    <div className="leaderboard_values">
-                        1. Artiom
+                    <div className={styles.leaderboard_values}>
+                        {leaderboard.map((entry,index) => (
+                            <div key={index}>
+                                {index+1}. {entry.username} - {entry.score}
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>
@@ -148,13 +221,13 @@ export const Sequence = () => {
 
     const renderGame = () => (
         <>
-            <div className="col">
-                <div className="row">
-                    <div className="game_score">
+            <div className={styles.col}>
+                <div className={styles.row}>
+                    <div className={styles.game_score}>
                         Score: {score}
                     </div>
                 </div>
-                <div className="sequence_area">
+                <div className={styles.sequence_area}>
                     {grid.map((row, rowIndex) => (
                         <div
                             key={rowIndex}
@@ -164,7 +237,9 @@ export const Sequence = () => {
                                 <div
                                     key={colIndex}
                                     onClick={() => handleTargetClick(rowIndex, colIndex)}
-                                    className={`sequence_tile ${activeTarget.some(target => target.x === rowIndex && target.y === colIndex) ? 'active' : ''} ${wrongClick?.x === rowIndex && wrongClick?.y === colIndex ? 'wrong' : ''}`}
+                                    className={`${styles.sequence_tile}
+                                        ${activeTarget.some(target => target.x === rowIndex && target.y === colIndex) ? styles.active : ''}
+                                        ${wrongClick?.x === rowIndex && wrongClick?.y === colIndex ? styles.wrong : ''}`}
                                 />
                             ))}
                         </div>
@@ -176,42 +251,58 @@ export const Sequence = () => {
 
     const renderEndMenu = () => (
         <>
-            <div className="game_title">
+            <div className={styles.game_title}>
                 Game Ended
             </div>
-            <div className="main row">
-                <div className="personal_stats">
-                    <div className="score">
-                        Score
+            <div className={`${styles.main} ${styles.row}`}>
+                {timesPlayed==0 ? (
+                    <div className={styles.personal_stats}>
+                        <div className={styles.score}>
+                            Score
+                        </div>
+                        <hr/>
+                        <div className={styles.score_num}>
+                            {score}
+                        </div>
                     </div>
-                    <hr />
-                    <div className="score_num">
-                        {score}
+                ) : (
+                    <div className={styles.personal_stats}>
+                        <div className={styles.score}>
+                            Score
+                        </div>
+                        <hr/>
+                        <div className={styles.score_num}>
+                            {score}
+                        </div>
+                        <div className={styles.highscore}>
+                            Highscore
+                        </div>
+                        <hr/>
+                        <div className={styles.highscore_num}>
+                            {highscore}
+                        </div>
+                        <div className={styles.times_played}>
+                            Times played
+                        </div>
+                        <hr/>
+                        <div className={styles.times_played_num}>
+                            {timesPlayed}
+                        </div>
                     </div>
-                    <div className="highscore">
-                        Highscore
-                    </div>
-                    <hr />
-                    <div className="highscore_num">
-                        154
-                    </div>
-                    <div className="times_played">
-                        Times played
-                    </div>
-                    <hr />
-                    <div className="times_played_num">
-                        40
-                    </div>
+                )}
+                <div className={styles.col}>
+                    <button onClick={startGame} className={styles.start_button}>Restart</button>
+                    <button onClick={exitGame} className={styles.exit_button}>Exit</button>
                 </div>
-                <div className="col">
-                    <button onClick={startGame} className="start_button">Restart</button>
-                    <button onClick={exitGame} className="exit_button">Exit</button>
-                </div>
-                <div className="leaderboard">
+                <div className={styles.leaderboard}>
                     Leaderboard
                     <hr />
-                    <div className="leaderboard_values">
-                        1. Artiom
+                    <div className={styles.leaderboard_values}>
+                        {leaderboard.map((entry,index) => (
+                            <div key={index}>
+                                {index+1}. {entry.username} - {entry.score}
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>
@@ -219,13 +310,26 @@ export const Sequence = () => {
     );
 
     useEffect(() => {
-        if (gameState === "ended") {
-            sendScore(score);
+        if(gameState==="main"){
+            const update=async() => {
+                await getStats();
+                await getLeaderboard();
+            };
+
+            update();
+        }else if(gameState==="ended"){
+            const saveAndUpdate=async() => {
+                await saveScore();
+                await getStats();
+                await getLeaderboard();
+            };
+
+            saveAndUpdate();
         }
-    }, [gameState, score]);
+    },[gameState]);
 
     return (
-        <div className="game_window">
+        <div className={styles.game_window}>
             {gameState == 'main' && renderMainMenu()}
             {gameState == 'started' && renderGame()}
             {gameState == 'ended' && renderEndMenu()}
