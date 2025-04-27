@@ -27,6 +27,8 @@ export const Leaderboard=() => {
     const [seekerLeaderboard,setSeekerLeaderboard]=useState<{username: string,score: number}[]>([]);
     const [sequenceLeaderboard,setSequenceLeaderboard]=useState<{username: string,score: number}[]>([]);
     const [typingLeaderboard,setTypingLeaderboard]=useState<{username: string,score: number}[]>([]);
+    const [recommendation,setRecommendation]=useState<string>("");
+    const [isLoggedIn,setIsLoggedIn]=useState(false);
 
     const getAllStats=async() => {
         try{
@@ -272,6 +274,40 @@ export const Leaderboard=() => {
         }
     };
 
+    const getRecommendation=async() => {
+        try{
+            const session=await getSession();
+            var username=session.username;
+            if(!username){
+                console.error("No username found. Cannot save score");
+            }
+
+            const response=await fetch(`api/Recommendation/GetRecommendation/${username}`,{
+                method: "GET"
+            });
+
+            if(response.ok){
+                const data: string=await response.text();
+
+                if(data=="aim"){
+                    setRecommendation("You need to play more Aim Trainer");
+                }else if(data=="math"){
+                    setRecommendation("You need to play more Math Game");
+                }else if(data=="seeker"){
+                    setRecommendation("You need to play more Seeker");
+                }else if(data=="sequence"){
+                    setRecommendation("You need to play more Sequence");
+                }else if(data=="typing"){
+                    setRecommendation("You need to play more Typing");
+                }
+            }else{
+                console.error("Failed to get recommendation");
+            }
+        }catch(error){
+            console.error("Error getting recommendation: ",error);
+        }
+    }
+
     useEffect(() => {
         const update=async() => {
             await getAllStats();
@@ -280,6 +316,17 @@ export const Leaderboard=() => {
             await getSeekerStats();
             await getSequenceStats();
             await getTypingStats();
+
+            try{
+                const session=await getSession();
+                if(session && session.username){
+                    setIsLoggedIn(true);
+                }else{
+                    setIsLoggedIn(false);
+                }
+            }catch(error){
+                setIsLoggedIn(false);
+            }
         };
 
         update();
@@ -337,6 +384,16 @@ export const Leaderboard=() => {
                     </div>
                 </div>
             </div>
+            {isLoggedIn ? (
+                <div className="row recommendation">
+                    <button className="recommendation_button" onClick={getRecommendation}>Get Recommendation</button>
+                    <div className="recommendation_text">
+                        {recommendation}
+                    </div>
+                </div>
+            ) : (
+                <></>
+            )}
             <div className="row">
                 {aimTimesPlayed>0 ? (
                     <div className="all_scores_table">
