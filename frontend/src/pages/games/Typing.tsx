@@ -7,7 +7,9 @@ export const Typing=() => {
     const [text,setText]=useState<string>("");
     const [score,setScore]=useState(0);
     const [timeLeft,setTimeLeft]=useState(0);
-    const [username,setUsername]=useState<string | null>(null);
+    const [highscore,setHighscore]=useState(0);
+    const [timesPlayed,setTimesPlayed]=useState(0);
+    const [leaderboard,setLeaderboard]=useState<{username: string,score: number}[]>([]);
 
     const startGame=async() => {
         setTimeLeft(60);

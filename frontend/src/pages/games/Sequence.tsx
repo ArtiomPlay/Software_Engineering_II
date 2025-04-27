@@ -18,9 +18,9 @@ export const Sequence = () => {
     const [score, setScore] = useState(0);
     const [level, setLevel] = useState(0);
     const [correct, setCorrect] = useState(0);
-    //const [username,setUsername]=useState<string | null>(null);
-
-    const username = "Emil"; // For testing
+    const [highscore,setHighscore]=useState(0);
+    const [timesPlayed,setTimesPlayed]=useState(0);
+    const [leaderboard,setLeaderboard]=useState<{username: string,score: number}[]>([]);
 
     const startGame = async () => {
         const newLevel = 1;
@@ -98,19 +98,6 @@ export const Sequence = () => {
             setTimeout(() => setGameState("ended"), 500);
         }
     }
-
-    const sendScore = async (finalScore: number) => {
-        try {
-            const response = await fetch(`/api/score/sequence?accountName=${username}&score=${finalScore}`, {
-                method: 'POST',
-            });
-            if (!response.ok) {
-                console.error('Failed to submit score:', response.statusText);
-            }
-        } catch (error) {
-            console.error('Error submitting score:', error);
-        }
-    };
 
     const renderMainMenu = () => (
         <>
@@ -219,12 +206,6 @@ export const Sequence = () => {
             </div>
         </>
     );
-
-    useEffect(() => {
-        if (gameState === "ended") {
-            sendScore(score);
-        }
-    }, [gameState, score]);
 
     return (
         <div className={styles.game_window}>

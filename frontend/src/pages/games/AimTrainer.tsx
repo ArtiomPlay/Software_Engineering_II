@@ -162,7 +162,7 @@ export const AimTrainer: React.FC=() => {
             </div>
             <div className={`${styles.main} ${styles.row}`}>
                 {timesPlayed==0 ? (
-                    <></>
+                    <div className={styles.no_personal_stats}></div>
                 ) : (
                     <div className={styles.personal_stats}>
                         <div className={styles.highscore}>
@@ -226,29 +226,41 @@ export const AimTrainer: React.FC=() => {
                 Game Ended
             </div>
             <div className={`${styles.main} ${styles.row}`}>
-                <div className={styles.personal_stats}>
-                    <div className={styles.score}>
-                        Score
+                {timesPlayed==0 ? (
+                    <div className={styles.personal_stats}>
+                        <div className={styles.score}>
+                            Score
+                        </div>
+                        <hr/>
+                        <div className={styles.score_num}>
+                            {score}
+                        </div>
                     </div>
-                    <hr/>
-                    <div className={styles.score_num}>
-                        {score}
+                ) : (
+                    <div className={styles.personal_stats}>
+                        <div className={styles.score}>
+                            Score
+                        </div>
+                        <hr/>
+                        <div className={styles.score_num}>
+                            {score}
+                        </div>
+                        <div className={styles.highscore}>
+                            Highscore
+                        </div>
+                        <hr/>
+                        <div className={styles.highscore_num}>
+                            {highscore}
+                        </div>
+                        <div className={styles.times_played}>
+                            Times played
+                        </div>
+                        <hr/>
+                        <div className={styles.times_played_num}>
+                            {timesPlayed}
+                        </div>
                     </div>
-                    <div className={styles.highscore}>
-                        Highscore
-                    </div>
-                    <hr/>
-                    <div className={styles.highscore_num}>
-                        {highscore}
-                    </div>
-                    <div className={styles.times_played}>
-                        Times played
-                    </div>
-                    <hr/>
-                    <div className={styles.times_played_num}>
-                        {timesPlayed}
-                    </div>
-                </div>
+                )}
                 <div className={styles.col}>
                     <button onClick={startGame} className={styles.start_button}>Restart</button>
                     <button onClick={exitGame} className={styles.exit_button}>Exit</button>

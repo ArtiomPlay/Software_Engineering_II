@@ -14,7 +14,9 @@ export const Seeker=() => {
     const [target,setTarget]=useState<Coordinate | null>(null);
     const [timeLeft,setTimeLeft]=useState(0);
     const [score,setScore]=useState(0);
-    const [username,setUsername]=useState<string | null>(null);
+    const [highscore,setHighscore]=useState(0);
+    const [timesPlayed,setTimesPlayed]=useState(0);
+    const [leaderboard,setLeaderboard]=useState<{username: string,score: number}[]>([]);
     const gameAreaRef=useRef<HTMLDivElement>(null);
 
     const startGame=async() => {

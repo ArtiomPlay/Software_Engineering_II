@@ -27,7 +27,9 @@ export const MathGame=() => {
     const [timeLeft,setTimeLeft]=useState(0);
     const [score,setScore]=useState(0);
     const [consecutiveCorrect,setConsecutiveCorrect]=useState<number>(0);
-    const [username,setUsername]=useState<string | null>(null);
+    const [highscore,setHighscore]=useState(0);
+    const [timesPlayed,setTimesPlayed]=useState(0);
+    const [leaderboard,setLeaderboard]=useState<{username: string,score: number}[]>([]);
 
     const startGame=async() => {
         setScore(0);
@@ -85,28 +87,110 @@ export const MathGame=() => {
         }
     };
 
+    const getStats=async() => {
+        try{
+            const session=await getSession();
+            var username=session.username;
+            if(!username){
+                console.error("No username found. Cannot save score");
+                return;
+            }
+
+            const response=await fetch(`api/Score/math/get_account_scores?accountName=${username}`,{
+                method: "GET"
+            });
+
+            if(!response.ok){
+                console.error("Failed to fetch scores");
+                return;
+            }
+
+            const scores: number[]=await response.json();
+
+            setTimesPlayed(scores.length);
+
+            if(scores.length>0){
+                const maxScore=Math.max(...scores);
+                setHighscore(maxScore);
+            }else{
+                setHighscore(0);
+                setTimesPlayed(0);
+            }
+        }catch(error){
+            console.error("Error getting stats: ",error);
+        }
+    }
+
+    const getLeaderboard=async() => {
+        try{
+            const response=await fetch(`api/Score/math/get_all_scores?limit=10`,{
+                method: "GET"
+            });
+
+            if(response.ok){
+                const data=await response.json();
+                console.log("Leaderboard data:", data);
+                setLeaderboard(data);
+            }else{
+                console.error("Failed to get leaderboard");
+            }
+        }catch(error){
+            console.error("Error getting leaderboard: ",error)
+        }
+    }
+
+    const saveScore=async() => {
+        try{
+            const session=await getSession();
+            var username=session.username;
+            if(!username){
+                console.error("No username found. Cannot save score");
+                return;
+            }
+
+            const response=await fetch(`api/Score/math/add_score?accountName=${username}&score=${score}&difficulty=${difficulty}`,{
+                method: "POST",
+                headers: {"Content-Type": "application/json"}
+            });
+
+            if(response.ok){
+                console.log("Score saved succesfully!");
+                const result=await response.text();
+                console.log(result);
+            }else{
+                console.error("Failed to save score")
+            }
+        }catch(error){
+            console.error("Error saving score: ",error);
+        }
+    }
+
     const renderMainMenu=() => (
         <>
             <div className={styles.game_title}>
                 Math Game
             </div>
             <div className={`${styles.main} ${styles.row}`}>
-                <div className={styles.personal_stats}>
-                    <div className={styles.highscore}>
-                        Highscore
+                {timesPlayed==0 ? (
+                    <div className={styles.no_personal_stats}></div>
+                ) : (
+                    <div className={styles.personal_stats}>
+                        <div className={styles.highscore}>
+                            Highscore
+                        </div>
+                        <hr/>
+                        <div className={styles.highscore_num}>
+                            {highscore}
+                        </div>
+                        <div className={styles.times_played}>
+                            Times played
+                        </div>
+                        <hr/>
+                        <div className={styles.times_played_num}>
+                            {timesPlayed}
+                        </div>
                     </div>
-                    <hr/>
-                    <div className={styles.highscore_num}>
-                        154
-                    </div>
-                    <div className={styles.times_played}>
-                        Times played
-                    </div>
-                    <hr/>
-                    <div className={styles.times_played_num}>
-                        40
-                    </div>
-                </div>
+                )}
                 <div className={styles.col}>
                     <button onClick={startGame} className={styles.start_button}>Start</button>
                     <button onClick={changeDifficulty} className={styles.difficulty_button}>Diffuculty: {difficulty}</button>
@@ -115,7 +199,11 @@ export const MathGame=() => {
                     Leaderboard
                     <hr/>
                     <div className={styles.leaderboard_values}>
-                        1. Artiom
+                        {leaderboard.map((entry,index) => (
+                            <div key={index}>
+                                {index+1}. {entry.username} - {entry.score}
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>
@@ -153,29 +241,41 @@ export const MathGame=() => {
                 Game Ended
             </div>
             <div className={`${styles.main} ${styles.row}`}>
-                <div className={styles.personal_stats}>
-                    <div className={styles.score}>
-                        Score
+                {timesPlayed==0 ? (
+                    <div className={styles.personal_stats}>
+                        <div className={styles.score}>
+                            Score
+                        </div>
+                        <hr/>
+                        <div className={styles.score_num}>
+                            {score}
+                        </div>
                     </div>
-                    <hr/>
-                    <div className={styles.score_num}>
-                        {score}
+                ) : (
+                    <div className={styles.personal_stats}>
+                        <div className={styles.score}>
+                            Score
+                        </div>
+                        <hr/>
+                        <div className={styles.score_num}>
+                            {score}
+                        </div>
+                        <div className={styles.highscore}>
+                            Highscore
+                        </div>
+                        <hr/>
+                        <div className={styles.highscore_num}>
+                            {highscore}
+                        </div>
+                        <div className={styles.times_played}>
+                            Times played
+                        </div>
+                        <hr/>
+                        <div className={styles.times_played_num}>
+                            {timesPlayed}
+                        </div>
                     </div>
-                    <div className={styles.highscore}>
-                        Highscore
-                    </div>
-                    <hr/>
-                    <div className={styles.highscore_num}>
-                        154
-                    </div>
-                    <div className={styles.times_played}>
-                        Times played
-                    </div>
-                    <hr/>
-                    <div className={styles.times_played_num}>
-                        40
-                    </div>
-                </div>
+                )}
                 <div className={styles.col}>
                     <button onClick={startGame} className={styles.start_button}>Restart</button>
                     <button onClick={changeDifficulty} className={styles.difficulty_button}>Diffuculty: {difficulty}</button>
@@ -185,23 +285,16 @@ export const MathGame=() => {
                     Leaderboard
                     <hr/>
                     <div className={styles.leaderboard_values}>
-                        1. Artiom
+                        {leaderboard.map((entry,index) => (
+                            <div key={index}>
+                                {index+1}. {entry.username} - {entry.score}
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>
         </>
     );
-
-    useEffect(() => {
-        const loadSession=async() => {
-            const session=await getSession();
-            if(session){
-                setUsername(session.username);
-            }
-        };
-
-        loadSession();
-    });
 
     useEffect(() => {
         let timer: number;
@@ -211,6 +304,25 @@ export const MathGame=() => {
             setGameState('ended');
         }
     },[timeLeft,gameState]);
+
+    useEffect(() => {
+        if(gameState==="main"){
+            const update=async() => {
+                await getStats();
+                await getLeaderboard();
+            };
+
+            update();
+        }else if(gameState==="ended"){
+            const saveAndUpdate=async() => {
+                await saveScore();
+                await getStats();
+                await getLeaderboard();
+            };
+
+            saveAndUpdate();
+        }
+    },[gameState]);
 
     return(
         <div className={styles.game_window}>

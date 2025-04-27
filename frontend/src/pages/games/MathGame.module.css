@@ -45,6 +45,14 @@
     overflow: auto;
 }
 
+.no_personal_stats{
+    margin-left: 0rem;
+    margin-right: auto;
+    height: 21rem;
+    width: 0rem;
+    padding: 0.5rem;
+}
+
 .score{
     text-align: center;
     font-size: 2rem;
