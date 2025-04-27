@@ -35,6 +35,17 @@ namespace SE_II.Server.Controllers
             }
         }
 
+        [HttpGet("get_all_stats")]
+        public async Task<IActionResult> GetAllStats([FromQuery]int limit=10){
+            try{
+                var stats=await _scoreRepository.GetAllStatsAsync(limit);
+
+                return Ok(stats);
+            }catch(Exception){
+                return StatusCode(500,"An unexpected error occurred.");
+            }
+        }
+
         [HttpGet("{game}/get_account_scores")]
         public async Task<IActionResult> GetAccountScores(string game, [FromQuery] string accountName)
         {

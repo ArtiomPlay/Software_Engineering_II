@@ -44,6 +44,60 @@ namespace SE_II.Server.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<AllStatsDTO> GetAllStatsAsync(int limit=10){
+            var accounts=await _context.Accounts.ToListAsync();
+            var allScores=new List<int>();
+            var allTimesPlayed=0;
+            var allLeaderboard=new List<ScoreDTO>();
+
+            var games=new[]{"aim","math","seeker","sequence","typing"};
+
+            foreach(var game in games){
+                var scores=await GetAllScoresAsync(game,100);
+
+                var gameScore=scores.Sum(s => s.score);
+                allScores.Add(gameScore);
+                allTimesPlayed+=scores.Count();
+            }
+
+            var allHighscores=new[]{
+                new {Game="AimT",Score=await _context.AimTrainerScores.MaxAsync(s => (int?)s.score ?? 0)},
+                new {Game="MathG",Score=await _context.MathGameScores.MaxAsync(s => (int?)s.score ?? 0)},
+                new {Game="Seeker",Score=await _context.SeekerScores.MaxAsync(s => (int?)s.score ?? 0)},
+                new {Game="Sequence",Score=await _context.SequenceScores.MaxAsync(s => (int?)s.score ?? 0)},
+                new {Game="Typing",Score=await _context.TypingScores.MaxAsync(s => (int?)s.score ?? 0)}
+            };
+
+            var highscore=allHighscores.OrderByDescending(s => s.Score).FirstOrDefault();
+
+            foreach(var account in accounts){
+                int totalScore=0;
+
+                totalScore+=await _context.AimTrainerScores.Where(s => s.AccountId==account.Id).SumAsync(s => s.score);
+                totalScore+=await _context.MathGameScores.Where(s => s.AccountId==account.Id).SumAsync(s => s.score);
+                totalScore+=await _context.SeekerScores.Where(s => s.AccountId==account.Id).SumAsync(s => s.score);
+                totalScore+=await _context.SequenceScores.Where(s => s.AccountId==account.Id).SumAsync(s => s.score);
+                totalScore+=await _context.TypingScores.Where(s => s.AccountId==account.Id).SumAsync(s => s.score);
+
+                if(totalScore>0){
+                    allLeaderboard.Add(new ScoreDTO{
+                        Username=account.Username,
+                        score=totalScore
+                    });
+                }
+            }
+
+            allLeaderboard=allLeaderboard.OrderByDescending(l => l.score).Take(limit).ToList();
+
+            return new AllStatsDTO{
+                totalScore=allScores.Sum(),
+                totalTimesPlayed=allTimesPlayed,
+                highscoreGame=highscore.Game,
+                highscoreScore=highscore.Score,
+                leaderboard=allLeaderboard
+            };
+        }
+
         public async Task<List<int>> GetScoresByAccountAsync(string game, string accountName)
         {
             var account = await _context.Accounts.FirstOrDefaultAsync(a => a.Username == accountName);
