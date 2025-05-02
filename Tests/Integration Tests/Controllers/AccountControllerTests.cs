@@ -5,7 +5,7 @@ using SE_II.Server.DTOs;
 using System.Net.Http.Json;
 using Microsoft.EntityFrameworkCore;
 
-namespace SE_II.Tests.Controllers{
+namespace SE_II.Tests.Integration.Controllers{
     public class AccountControllerTests : IClassFixture<CustomWebApplicationFactory<Program>>{
         private readonly HttpClient _client;
         private readonly CustomWebApplicationFactory<Program> _factory;
