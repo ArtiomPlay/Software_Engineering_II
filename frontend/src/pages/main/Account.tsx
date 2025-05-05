@@ -37,22 +37,22 @@ export const Account: React.FC=() => {
         try{
             if (username==="" || password==="") {
                 setRegisterErrorType('emptyFields');
-                throw new Error("Please fill in all fields");
+                return;
             }if(username.length<4){
                 setRegisterErrorType('usernameShort');
-                throw new Error("Username must be at least 4 characters long");
+                return;
             }if(password.length<8){
                 setRegisterErrorType('passwordShort');
-                throw new Error("Password must be at least 8 characters long");
+                return;
             }if(password.length>20){
                 setRegisterErrorType('passwordLong');
-                throw new Error("Password must be at most 20 characters long");
+                return;
             }if(!/^[a-zA-Z0-9]+$/.test(username)){
                 setRegisterErrorType('usernameAlphanumeric');
-                throw new Error("Username must only contain alphanumeric characters");
+                return;
             }if(!/^[a-zA-Z0-9]+$/.test(password)){
                 setRegisterErrorType('passwordAlphanumeric');
-                throw new Error("Password must only contain alphanumeric characters");
+                return;
             }else{
                 setRegisterErrorType('')
             }
@@ -84,7 +84,7 @@ export const Account: React.FC=() => {
         try{
             if (usernameInput==="" || passwordInput==="") {
                 setLoginErrorType('emptyFields');
-                throw new Error("Please fill in all fields");
+                return;
             }else{
                 setLoginErrorType('');
             }
@@ -128,6 +128,9 @@ export const Account: React.FC=() => {
                 <div className="loader"></div>
             ): isLoggedIn ? (
                 <>
+                    <div className="username_tile">
+                        Username: {username}
+                    </div>
                     <button className="submit_button" onClick={() => logout()}>Logout</button>
                 </>
             ): (

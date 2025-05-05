@@ -8,6 +8,8 @@ interface Coordinate{
 }
 
 export const Seeker=() => {
+    const [loadingStats,setLoadingStats]=useState(true);
+    const [loadingLeaderboard,setLoadingLeaderboard]=useState(true);
     const [gameState,setGameState]=useState<'main' | 'started' | 'ended'>('main');
     const initialGrid=Array.from({length: 10},() => Array(10).fill(0));
     const [grid,setGrid]=useState<number[][]>(initialGrid);
@@ -86,6 +88,8 @@ export const Seeker=() => {
             }
         }catch(error){
             console.error("Error getting stats: ",error);
+        }finally{
+            setLoadingStats(false);
         }
     }
 
@@ -104,6 +108,8 @@ export const Seeker=() => {
             }
         }catch(error){
             console.error("Error getting leaderboard: ",error)
+        }finally{
+            setLoadingLeaderboard(false);
         }
     }
 
@@ -143,33 +149,45 @@ export const Seeker=() => {
                     <div className={styles.no_personal_stats}></div>
                 ) : (
                     <div className={styles.personal_stats}>
-                        <div className={styles.highscore}>
-                            Highscore
-                        </div>
-                        <hr/>
-                        <div className={styles.highscore_num}>
-                            {highscore}
-                        </div>
-                        <div className={styles.times_played}>
-                            Times played
-                        </div>
-                        <hr/>
-                        <div className={styles.times_played_num}>
-                            {timesPlayed}
-                        </div>
+                        {loadingStats ? (
+                            <div className={styles.loader}></div>
+                        ) : (
+                            <>
+                                <div className={styles.highscore}>
+                                    Highscore
+                                </div>
+                                <hr/>
+                                <div className={styles.highscore_num}>
+                                    {highscore}
+                                </div>
+                                <div className={styles.times_played}>
+                                    Times played
+                                </div>
+                                <hr/>
+                                <div className={styles.times_played_num}>
+                                    {timesPlayed}
+                                </div>
+                            </>
+                        )}
                     </div>
                 )}
                 <button onClick={startGame} className={styles.start_button}>Start</button>
                 <div className={styles.leaderboard}>
-                    Leaderboard
-                    <hr/>
-                    <div className={styles.leaderboard_values}>
-                        {leaderboard.map((entry,index) => (
-                            <div key={index}>
-                                {index+1}. {entry.username} - {entry.score}
+                    {loadingLeaderboard ? (
+                        <div className={styles.loader}></div>
+                    ) : (
+                        <>
+                            Leaderboard
+                            <hr/>
+                            <div className={styles.leaderboard_values}>
+                                {leaderboard.map((entry,index) => (
+                                    <div key={index}>
+                                        {index+1}. {entry.username} - {entry.score}
+                                    </div>
+                                ))}
                             </div>
-                        ))}
-                    </div>
+                        </>
+                    )}
                 </div>
             </div>
         </>
@@ -236,20 +254,26 @@ export const Seeker=() => {
                         <div className={styles.score_num}>
                             {score}
                         </div>
-                        <div className={styles.highscore}>
-                            Highscore
-                        </div>
-                        <hr/>
-                        <div className={styles.highscore_num}>
-                            {highscore}
-                        </div>
-                        <div className={styles.times_played}>
-                            Times played
-                        </div>
-                        <hr/>
-                        <div className={styles.times_played_num}>
-                            {timesPlayed}
-                        </div>
+                        {loadingStats ? (
+                            <div className={styles.loader}></div>
+                        ) : (
+                            <>
+                                <div className={styles.highscore}>
+                                    Highscore
+                                </div>
+                                <hr/>
+                                <div className={styles.highscore_num}>
+                                    {highscore}
+                                </div>
+                                <div className={styles.times_played}>
+                                    Times played
+                                </div>
+                                <hr/>
+                                <div className={styles.times_played_num}>
+                                    {timesPlayed}
+                                </div>
+                            </>
+                        )}
                     </div>
                 )}
                 <div className={styles.col}>
@@ -257,15 +281,21 @@ export const Seeker=() => {
                     <button onClick={exitGame} className={styles.exit_button}>Exit</button>
                 </div>
                 <div className={styles.leaderboard}>
-                    Leaderboard
-                    <hr/>
-                    <div className={styles.leaderboard_values}>
-                        {leaderboard.map((entry,index) => (
-                            <div key={index}>
-                                {index+1}. {entry.username} - {entry.score}
+                    {loadingLeaderboard ? (
+                        <div className={styles.loader}></div>
+                    ) : (
+                        <>
+                            Leaderboard
+                            <hr/>
+                            <div className={styles.leaderboard_values}>
+                                {leaderboard.map((entry,index) => (
+                                    <div key={index}>
+                                        {index+1}. {entry.username} - {entry.score}
+                                    </div>
+                                ))}
                             </div>
-                        ))}
-                    </div>
+                        </>
+                    )}
                 </div>
             </div>
         </>
@@ -275,6 +305,10 @@ export const Seeker=() => {
         let timer: number;
         if(gameState==='started' && timeLeft>0){
             timer=setTimeout(() => setTimeLeft((prev) => prev-1),1000);
+            if(!loadingStats || !loadingLeaderboard){
+                setLoadingStats(true);
+                setLoadingLeaderboard(true);
+            }
         }else if(gameState==='started' && timeLeft<=0){
             setGameState('ended');
         }

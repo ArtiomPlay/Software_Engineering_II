@@ -3,6 +3,7 @@ import {getSession} from "../../utils/session";
 import "./Leaderboard.css";
 
 export const Leaderboard=() => {
+    const [loading,setLoading]=useState(true);
     const [allScore,setAllScore]=useState(0);
     const [aimScore,setAimScore]=useState(0);
     const [mathScore,setMathScore]=useState(0);
@@ -326,6 +327,8 @@ export const Leaderboard=() => {
                 }
             }catch(error){
                 setIsLoggedIn(false);
+            }finally{
+                setLoading(false);
             }
         };
 
@@ -333,337 +336,343 @@ export const Leaderboard=() => {
     },[])
 
     return(
-        <div className="col">
-            <div className="row">
-                <div className="all_scores_table">
-                    <div className="table_type">
-                        All scores
-                        <hr/>
+        <>
+            {loading ? (
+                <div className="loader"></div>
+            ) : (
+                <div className="col">
+                    <div className="row">
+                        <div className="all_scores_table">
+                            <div className="table_type">
+                                All scores
+                                <hr/>
+                            </div>
+                            <div className="row">
+                                <div className="info_table">
+                                    <div className="table_title">
+                                        Score:
+                                    </div>
+                                    <hr/>
+                                    <div className="table_value">
+                                        {allScore}
+                                    </div>
+                                </div>
+                                <div className="info_table">
+                                    <div className="table_title">
+                                        Times played:
+                                    </div>
+                                    <hr/>
+                                    <div className="table_value">
+                                        {allTimesPlayed}
+                                    </div>
+                                </div>
+                                <div className="info_table">
+                                    <div className="table_title">
+                                        Highscore:
+                                    </div>
+                                    <hr/>
+                                    <div className="table_value">
+                                        {allHighscore?.game}: {allHighscore?.score}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="all_scores_leaderboard_table">
+                            <div className="table_type">
+                                All scores leaderboard
+                                <hr/>
+                            </div>
+                            <div className="col leaderboard_place">
+                                {allLeaderboard.map((entry,index) => (
+                                    <div key={index}>
+                                        {index+1}. {entry.username} - {entry.score}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                    {isLoggedIn ? (
+                        <div className="row recommendation">
+                            <button className="recommendation_button" onClick={getRecommendation}>Get Recommendation</button>
+                            <div className="recommendation_text">
+                                {recommendation}
+                            </div>
+                        </div>
+                    ) : (
+                        <></>
+                    )}
+                    <div className="row">
+                        {aimTimesPlayed>0 ? (
+                            <div className="all_scores_table">
+                                <div className="table_type">
+                                    Aim Trainer scores
+                                    <hr/>
+                                </div>
+                                <div className="row">
+                                    <div className="info_table">
+                                        <div className="table_title">
+                                            Score:
+                                        </div>
+                                        <hr/>
+                                        <div className="table_value">
+                                            {aimScore}
+                                        </div>
+                                    </div>
+                                    <div className="info_table">
+                                        <div className="table_title">
+                                            Times played:
+                                        </div>
+                                        <hr/>
+                                        <div className="table_value">
+                                            {aimTimesPlayed}
+                                        </div>
+                                    </div>
+                                    <div className="info_table">
+                                        <div className="table_title">
+                                            Highscore:
+                                        </div>
+                                        <hr/>
+                                        <div className="table_value">
+                                            {aimHighscore}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ) : (
+                            <></>
+                        )}
+                        <div className="all_scores_leaderboard_table">
+                            <div className="table_type">
+                                Aim Trainer leaderboard
+                                <hr/>
+                            </div>
+                            <div className="col leaderboard_place">
+                                {aimLeaderboard.map((entry,index) => (
+                                    <div key={index}>
+                                        {index+1}. {entry.username} - {entry.score}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                     </div>
                     <div className="row">
-                        <div className="info_table">
-                            <div className="table_title">
-                                Score:
+                        {mathTimesPlayed>0 ? (
+                            <div className="all_scores_table">
+                                <div className="table_type">
+                                    Math Game scores
+                                    <hr/>
+                                </div>
+                                <div className="row">
+                                    <div className="info_table">
+                                        <div className="table_title">
+                                            Score:
+                                        </div>
+                                        <hr/>
+                                        <div className="table_value">
+                                            {mathScore}
+                                        </div>
+                                    </div>
+                                    <div className="info_table">
+                                        <div className="table_title">
+                                            Times played:
+                                        </div>
+                                        <hr/>
+                                        <div className="table_value">
+                                            {mathTimesPlayed}
+                                        </div>
+                                    </div>
+                                    <div className="info_table">
+                                        <div className="table_title">
+                                            Highscore:
+                                        </div>
+                                        <hr/>
+                                        <div className="table_value">
+                                            {mathHighscore}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <hr/>
-                            <div className="table_value">
-                                {allScore}
+                        ) : (
+                            <></>
+                        )}
+                        <div className="all_scores_leaderboard_table">
+                            <div className="table_type">
+                                Math Game leaderboard
+                                <hr/>
+                            </div>
+                            <div className="col leaderboard_place">
+                                {mathLeaderboard.map((entry,index) => (
+                                    <div key={index}>
+                                        {index+1}. {entry.username} - {entry.score}
+                                    </div>
+                                ))}
                             </div>
                         </div>
-                        <div className="info_table">
-                            <div className="table_title">
-                                Times played:
+                    </div>
+                    <div className="row">
+                        {seekerTimesPlayed>0 ? (
+                            <div className="all_scores_table">
+                                <div className="table_type">
+                                    Seeker scores
+                                    <hr/>
+                                </div>
+                                <div className="row">
+                                    <div className="info_table">
+                                        <div className="table_title">
+                                            Score:
+                                        </div>
+                                        <hr/>
+                                        <div className="table_value">
+                                            {seekerScore}
+                                        </div>
+                                    </div>
+                                    <div className="info_table">
+                                        <div className="table_title">
+                                            Times played:
+                                        </div>
+                                        <hr/>
+                                        <div className="table_value">
+                                            {seekerTimesPlayed}
+                                        </div>
+                                    </div>
+                                    <div className="info_table">
+                                        <div className="table_title">
+                                            Highscore:
+                                        </div>
+                                        <hr/>
+                                        <div className="table_value">
+                                            {seekerHighscore}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <hr/>
-                            <div className="table_value">
-                                {allTimesPlayed}
+                        ) : (
+                            <></>
+                        )}
+                        <div className="all_scores_leaderboard_table">
+                            <div className="table_type">
+                                Seeker leaderboard
+                                <hr/>
+                            </div>
+                            <div className="col leaderboard_place">
+                                {seekerLeaderboard.map((entry,index) => (
+                                    <div key={index}>
+                                        {index+1}. {entry.username} - {entry.score}
+                                    </div>
+                                ))}
                             </div>
                         </div>
-                        <div className="info_table">
-                            <div className="table_title">
-                                Highscore:
+                    </div>
+                    <div className="row">
+                        {sequenceTimesPlayed>0 ? (
+                            <div className="all_scores_table">
+                                <div className="table_type">
+                                    Sequence scores
+                                    <hr/>
+                                </div>
+                                <div className="row">
+                                    <div className="info_table">
+                                        <div className="table_title">
+                                            Score:
+                                        </div>
+                                        <hr/>
+                                        <div className="table_value">
+                                            {sequenceScore}
+                                        </div>
+                                    </div>
+                                    <div className="info_table">
+                                        <div className="table_title">
+                                            Times played:
+                                        </div>
+                                        <hr/>
+                                        <div className="table_value">
+                                            {sequenceTimesPlayed}
+                                        </div>
+                                    </div>
+                                    <div className="info_table">
+                                        <div className="table_title">
+                                            Highscore:
+                                        </div>
+                                        <hr/>
+                                        <div className="table_value">
+                                            {sequenceHighscore}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <hr/>
-                            <div className="table_value">
-                                {allHighscore?.game}: {allHighscore?.score}
+                        ) : (
+                            <></>
+                        )}
+                        <div className="all_scores_leaderboard_table">
+                            <div className="table_type">
+                                Sequence leaderboard
+                                <hr/>
+                            </div>
+                            <div className="col leaderboard_place">
+                                {sequenceLeaderboard.map((entry,index) => (
+                                    <div key={index}>
+                                        {index+1}. {entry.username} - {entry.score}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                    <div className="row">
+                        {typingTimesPlayed>0 ? (
+                            <div className="all_scores_table">
+                                <div className="table_type">
+                                    Typing scores
+                                    <hr/>
+                                </div>
+                                <div className="row">
+                                    <div className="info_table">
+                                        <div className="table_title">
+                                            Score:
+                                        </div>
+                                        <hr/>
+                                        <div className="table_value">
+                                            {typingScore}
+                                        </div>
+                                    </div>
+                                    <div className="info_table">
+                                        <div className="table_title">
+                                            Times played:
+                                        </div>
+                                        <hr/>
+                                        <div className="table_value">
+                                            {typingTimesPlayed}
+                                        </div>
+                                    </div>
+                                    <div className="info_table">
+                                        <div className="table_title">
+                                            Highscore:
+                                        </div>
+                                        <hr/>
+                                        <div className="table_value">
+                                            {typingHighscore}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ) : (
+                            <></>
+                        )}
+                        <div className="all_scores_leaderboard_table">
+                            <div className="table_type">
+                                Typing leaderboard
+                                <hr/>
+                            </div>
+                            <div className="col leaderboard_place">
+                                {typingLeaderboard.map((entry,index) => (
+                                    <div key={index}>
+                                        {index+1}. {entry.username} - {entry.score}
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className="all_scores_leaderboard_table">
-                    <div className="table_type">
-                        All scores leaderboard
-                        <hr/>
-                    </div>
-                    <div className="col leaderboard_place">
-                        {allLeaderboard.map((entry,index) => (
-                            <div key={index}>
-                                {index+1}. {entry.username} - {entry.score}
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
-            {isLoggedIn ? (
-                <div className="row recommendation">
-                    <button className="recommendation_button" onClick={getRecommendation}>Get Recommendation</button>
-                    <div className="recommendation_text">
-                        {recommendation}
-                    </div>
-                </div>
-            ) : (
-                <></>
             )}
-            <div className="row">
-                {aimTimesPlayed>0 ? (
-                    <div className="all_scores_table">
-                        <div className="table_type">
-                            Aim Trainer scores
-                            <hr/>
-                        </div>
-                        <div className="row">
-                            <div className="info_table">
-                                <div className="table_title">
-                                    Score:
-                                </div>
-                                <hr/>
-                                <div className="table_value">
-                                    {aimScore}
-                                </div>
-                            </div>
-                            <div className="info_table">
-                                <div className="table_title">
-                                    Times played:
-                                </div>
-                                <hr/>
-                                <div className="table_value">
-                                    {aimTimesPlayed}
-                                </div>
-                            </div>
-                            <div className="info_table">
-                                <div className="table_title">
-                                    Highscore:
-                                </div>
-                                <hr/>
-                                <div className="table_value">
-                                    {aimHighscore}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                ) : (
-                    <></>
-                )}
-                <div className="all_scores_leaderboard_table">
-                    <div className="table_type">
-                        Aim Trainer leaderboard
-                        <hr/>
-                    </div>
-                    <div className="col leaderboard_place">
-                        {aimLeaderboard.map((entry,index) => (
-                            <div key={index}>
-                                {index+1}. {entry.username} - {entry.score}
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
-            <div className="row">
-                {mathTimesPlayed>0 ? (
-                    <div className="all_scores_table">
-                        <div className="table_type">
-                            Math Game scores
-                            <hr/>
-                        </div>
-                        <div className="row">
-                            <div className="info_table">
-                                <div className="table_title">
-                                    Score:
-                                </div>
-                                <hr/>
-                                <div className="table_value">
-                                    {mathScore}
-                                </div>
-                            </div>
-                            <div className="info_table">
-                                <div className="table_title">
-                                    Times played:
-                                </div>
-                                <hr/>
-                                <div className="table_value">
-                                    {mathTimesPlayed}
-                                </div>
-                            </div>
-                            <div className="info_table">
-                                <div className="table_title">
-                                    Highscore:
-                                </div>
-                                <hr/>
-                                <div className="table_value">
-                                    {mathHighscore}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                ) : (
-                    <></>
-                )}
-                <div className="all_scores_leaderboard_table">
-                    <div className="table_type">
-                        Math Game leaderboard
-                        <hr/>
-                    </div>
-                    <div className="col leaderboard_place">
-                        {mathLeaderboard.map((entry,index) => (
-                            <div key={index}>
-                                {index+1}. {entry.username} - {entry.score}
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
-            <div className="row">
-                {seekerTimesPlayed>0 ? (
-                    <div className="all_scores_table">
-                        <div className="table_type">
-                            Seeker scores
-                            <hr/>
-                        </div>
-                        <div className="row">
-                            <div className="info_table">
-                                <div className="table_title">
-                                    Score:
-                                </div>
-                                <hr/>
-                                <div className="table_value">
-                                    {seekerScore}
-                                </div>
-                            </div>
-                            <div className="info_table">
-                                <div className="table_title">
-                                    Times played:
-                                </div>
-                                <hr/>
-                                <div className="table_value">
-                                    {seekerTimesPlayed}
-                                </div>
-                            </div>
-                            <div className="info_table">
-                                <div className="table_title">
-                                    Highscore:
-                                </div>
-                                <hr/>
-                                <div className="table_value">
-                                    {seekerHighscore}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                ) : (
-                    <></>
-                )}
-                <div className="all_scores_leaderboard_table">
-                    <div className="table_type">
-                        Seeker leaderboard
-                        <hr/>
-                    </div>
-                    <div className="col leaderboard_place">
-                        {seekerLeaderboard.map((entry,index) => (
-                            <div key={index}>
-                                {index+1}. {entry.username} - {entry.score}
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
-            <div className="row">
-                {sequenceTimesPlayed>0 ? (
-                    <div className="all_scores_table">
-                        <div className="table_type">
-                            Sequence scores
-                            <hr/>
-                        </div>
-                        <div className="row">
-                            <div className="info_table">
-                                <div className="table_title">
-                                    Score:
-                                </div>
-                                <hr/>
-                                <div className="table_value">
-                                    {sequenceScore}
-                                </div>
-                            </div>
-                            <div className="info_table">
-                                <div className="table_title">
-                                    Times played:
-                                </div>
-                                <hr/>
-                                <div className="table_value">
-                                    {sequenceTimesPlayed}
-                                </div>
-                            </div>
-                            <div className="info_table">
-                                <div className="table_title">
-                                    Highscore:
-                                </div>
-                                <hr/>
-                                <div className="table_value">
-                                    {sequenceHighscore}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                ) : (
-                    <></>
-                )}
-                <div className="all_scores_leaderboard_table">
-                    <div className="table_type">
-                        Sequence leaderboard
-                        <hr/>
-                    </div>
-                    <div className="col leaderboard_place">
-                        {sequenceLeaderboard.map((entry,index) => (
-                            <div key={index}>
-                                {index+1}. {entry.username} - {entry.score}
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
-            <div className="row">
-                {typingTimesPlayed>0 ? (
-                    <div className="all_scores_table">
-                        <div className="table_type">
-                            Typing scores
-                            <hr/>
-                        </div>
-                        <div className="row">
-                            <div className="info_table">
-                                <div className="table_title">
-                                    Score:
-                                </div>
-                                <hr/>
-                                <div className="table_value">
-                                    {typingScore}
-                                </div>
-                            </div>
-                            <div className="info_table">
-                                <div className="table_title">
-                                    Times played:
-                                </div>
-                                <hr/>
-                                <div className="table_value">
-                                    {typingTimesPlayed}
-                                </div>
-                            </div>
-                            <div className="info_table">
-                                <div className="table_title">
-                                    Highscore:
-                                </div>
-                                <hr/>
-                                <div className="table_value">
-                                    {typingHighscore}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                ) : (
-                    <></>
-                )}
-                <div className="all_scores_leaderboard_table">
-                    <div className="table_type">
-                        Typing leaderboard
-                        <hr/>
-                    </div>
-                    <div className="col leaderboard_place">
-                        {typingLeaderboard.map((entry,index) => (
-                            <div key={index}>
-                                {index+1}. {entry.username} - {entry.score}
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
-        </div>
+        </>
     )
 }
