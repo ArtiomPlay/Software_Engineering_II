@@ -8,6 +8,8 @@ interface Coordinate {
 }
 
 export const Sequence = () => {
+    const [loadingStats,setLoadingStats]=useState(true);
+    const [loadingLeaderboard,setLoadingLeaderboard]=useState(true);
     const [gameState, setGameState] = useState<'main' | 'started' | 'ended'>('main');
     const [show, setShow] = useState(false);
     const initialGrid = Array.from({ length: 3 }, () => Array(3).fill(0));
@@ -33,6 +35,10 @@ export const Sequence = () => {
 
         setTimeout(async () => {
             await getTarget(newLevel);
+            if(!loadingStats || !loadingLeaderboard){
+                setLoadingStats(true);
+                setLoadingLeaderboard(true);
+            }
         }, 10);
     };
 
@@ -130,6 +136,8 @@ export const Sequence = () => {
             }
         }catch(error){
             console.error("Error getting stats: ",error);
+        }finally{
+            setLoadingStats(false);
         }
     }
 
@@ -148,6 +156,8 @@ export const Sequence = () => {
             }
         }catch(error){
             console.error("Error getting leaderboard: ",error)
+        }finally{
+            setLoadingLeaderboard(false);
         }
     }
 
@@ -187,33 +197,45 @@ export const Sequence = () => {
                     <div className={styles.no_personal_stats}></div>
                 ) : (
                     <div className={styles.personal_stats}>
-                        <div className={styles.highscore}>
-                            Highscore
-                        </div>
-                        <hr/>
-                        <div className={styles.highscore_num}>
-                            {highscore}
-                        </div>
-                        <div className={styles.times_played}>
-                            Times played
-                        </div>
-                        <hr/>
-                        <div className={styles.times_played_num}>
-                            {timesPlayed}
-                        </div>
+                        {loadingStats ? (
+                            <div className={styles.loader}></div>
+                        ) : (
+                            <>
+                                <div className={styles.highscore}>
+                                    Highscore
+                                </div>
+                                <hr/>
+                                <div className={styles.highscore_num}>
+                                    {highscore}
+                                </div>
+                                <div className={styles.times_played}>
+                                    Times played
+                                </div>
+                                <hr/>
+                                <div className={styles.times_played_num}>
+                                    {timesPlayed}
+                                </div>
+                            </>
+                        )}
                     </div>
                 )}
                 <button onClick={startGame} className={styles.start_button}>Start</button>
                 <div className={styles.leaderboard}>
-                    Leaderboard
-                    <hr />
-                    <div className={styles.leaderboard_values}>
-                        {leaderboard.map((entry,index) => (
-                            <div key={index}>
-                                {index+1}. {entry.username} - {entry.score}
+                    {loadingLeaderboard ? (
+                        <div className={styles.loader}></div>
+                    ) : (
+                        <>
+                            Leaderboard
+                            <hr/>
+                            <div className={styles.leaderboard_values}>
+                                {leaderboard.map((entry,index) => (
+                                    <div key={index}>
+                                        {index+1}. {entry.username} - {entry.score}
+                                    </div>
+                                ))}
                             </div>
-                        ))}
-                    </div>
+                        </>
+                    )}
                 </div>
             </div>
         </>
@@ -274,20 +296,26 @@ export const Sequence = () => {
                         <div className={styles.score_num}>
                             {score}
                         </div>
-                        <div className={styles.highscore}>
-                            Highscore
-                        </div>
-                        <hr/>
-                        <div className={styles.highscore_num}>
-                            {highscore}
-                        </div>
-                        <div className={styles.times_played}>
-                            Times played
-                        </div>
-                        <hr/>
-                        <div className={styles.times_played_num}>
-                            {timesPlayed}
-                        </div>
+                        {loadingStats ? (
+                            <div className={styles.loader}></div>
+                        ) : (
+                            <>
+                                <div className={styles.highscore}>
+                                    Highscore
+                                </div>
+                                <hr/>
+                                <div className={styles.highscore_num}>
+                                    {highscore}
+                                </div>
+                                <div className={styles.times_played}>
+                                    Times played
+                                </div>
+                                <hr/>
+                                <div className={styles.times_played_num}>
+                                    {timesPlayed}
+                                </div>
+                            </>
+                        )}
                     </div>
                 )}
                 <div className={styles.col}>
@@ -295,15 +323,21 @@ export const Sequence = () => {
                     <button onClick={exitGame} className={styles.exit_button}>Exit</button>
                 </div>
                 <div className={styles.leaderboard}>
-                    Leaderboard
-                    <hr />
-                    <div className={styles.leaderboard_values}>
-                        {leaderboard.map((entry,index) => (
-                            <div key={index}>
-                                {index+1}. {entry.username} - {entry.score}
+                    {loadingLeaderboard ? (
+                        <div className={styles.loader}></div>
+                    ) : (
+                        <>
+                            Leaderboard
+                            <hr/>
+                            <div className={styles.leaderboard_values}>
+                                {leaderboard.map((entry,index) => (
+                                    <div key={index}>
+                                        {index+1}. {entry.username} - {entry.score}
+                                    </div>
+                                ))}
                             </div>
-                        ))}
-                    </div>
+                        </>
+                    )}
                 </div>
             </div>
         </>

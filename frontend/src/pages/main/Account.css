@@ -98,7 +98,7 @@ input[type=password] {
 
 .submit_button{
     background: #3e0000;
-    border: 3px solid #197400;
+    border: 3px solid rgb(25, 116, 0);
     border-radius: 10px;
     font-size: 2rem;
     width: 22rem;
@@ -121,4 +121,17 @@ input[type=password] {
     font-weight: bold;
     color: #ffc3bf;
     text-decoration: underline;
+}
+
+.username_tile{
+    background: #3e0000;
+    border: 3px solid rgb(25, 116, 0);
+    border-radius: 10px;
+    font-size: 2rem;
+    width: 22rem;
+    height: 3rem;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1rem;
+    padding: 1rem;
 }

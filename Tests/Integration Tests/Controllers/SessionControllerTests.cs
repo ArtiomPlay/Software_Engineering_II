@@ -1,11 +1,8 @@
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Extensions.DependencyInjection;
 using SE_II.Server.Models;
-using SE_II.Server.DTOs;
 using System.Net.Http.Json;
-using Microsoft.EntityFrameworkCore;
 
-namespace SE_II.Tests.Controllers{
+namespace SE_II.Tests.Integration.Controllers{
     public class SessionControllerTests : IClassFixture<CustomWebApplicationFactory<Program>>{
         private readonly HttpClient _client;
         private readonly CustomWebApplicationFactory<Program> _factory;

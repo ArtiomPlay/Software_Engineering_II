@@ -6,6 +6,25 @@
     flex-direction: row;
 }
 
+.loader {
+    animation: spin 2s linear infinite;
+    border: 16px solid #c7c7c7;
+    border-top: 16px solid #374c94;
+    border-radius: 50%;
+    display: flex;
+    position: absolute;
+    left: 50%;
+    top: 35%;
+    width: 140px;
+    height: 140px;
+    z-index: 1;
+}
+@keyframes spin {
+    0% {transform: rotate(0deg);}
+
+    100% {transform: rotate(360deg);}
+}
+
 .all_scores_table{
     text-align: center;
     background-color: #7a0000;

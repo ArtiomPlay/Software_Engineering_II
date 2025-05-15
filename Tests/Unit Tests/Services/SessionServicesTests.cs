@@ -1,9 +1,8 @@
 ﻿using System.Collections.Concurrent;
-using SE_II.Server.Interfaces;
 using SE_II.Server.Models;
 using SE_II.Server.Services;
 
-namespace SE_II.Tests.Services{
+namespace SE_II.Tests.Unit.Services{
     public class SessionServicesTests{
         private readonly SessionService _sessionService;
 
